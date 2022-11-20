@@ -1,6 +1,8 @@
-import { Prop } from '@nestjs/mongoose';
 import { Component, Event, EventEmitter, Method, h, State, Listen } from '@stencil/core';
 import { SlDialog } from '@shoelace-style/shoelace';
+
+import state from '../../../stores/tk-bookmark-store';
+import { convertLabelIdsToLabels, getLabelIdsFromExistingLabels } from '../../../utils/tk-bookmark-app-utils';
 
 @Component({
   tag: 'tk-bookmark-list',
@@ -11,14 +13,23 @@ export class TkBookmarkList {
   @Event() deleteBookmarkSuccess: EventEmitter;
   @Event() updateBookmarkSuccess: EventEmitter;
 
-  @Prop() isEditMode = true;
+  //@Prop() isEditMode = true;
 
   @State() bookmarkInAction;
 
   @State() bookmarkList;
 
+  filterValue;
+  labelFilterList;
+
   componentWillLoad() {
     this.getBookmarkData();
+  }
+
+  @Method()
+  async setLabelFilterList(list) {
+    this.labelFilterList = list;
+    this.filterBookmarkList();
   }
 
   @Method()
@@ -38,10 +49,19 @@ export class TkBookmarkList {
     this.bookmarkInAction = event.detail;
   }
 
+  appendLabelsForDisplay() {
+    this.bookmarkList.map(bookmark => {
+      let labelsForDisplay = convertLabelIdsToLabels(bookmark.labels, state.labels);
+      bookmark.labelsForDisplay = labelsForDisplay;
+    });
+  }
+
   async getBookmarkData() {
     let response = await fetch('http://localhost:3000/bookmark');
     let json = await response.json();
     this.bookmarkList = [...json];
+    this.appendLabelsForDisplay();
+    state.bookmarks = this.bookmarkList;
     return;
   }
 
@@ -49,9 +69,13 @@ export class TkBookmarkList {
     if(!this.bookmarkInAction || !this.bookmarkInAction._id) {
       return;
     }
+
+    let labelIds = await getLabelIdsFromExistingLabels(state.labels);
+    
     let requestObject = {
       title: this.bookmarkInAction.title,
       url: this.bookmarkInAction.url,
+      labels: labelIds,
       notes: this.bookmarkInAction.notes
     };
     let response = await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
@@ -87,6 +111,42 @@ export class TkBookmarkList {
     }
   }
 
+  checkLabelFilter(bookmark) {
+    if(!this.labelFilterList) {
+      return true;
+    }
+
+    let result = true;
+    this.labelFilterList.map(label => {
+      if(result && !bookmark.labelsForDisplay.includes(label)) {
+        result = false;
+      }
+    });
+    return result;
+  }
+
+  filterBookmarkList() {
+    //console.log(`bookmark fiter: ${filterValue}`);
+    this.bookmarkList = state.bookmarks;
+
+    this.bookmarkList = this.bookmarkList.filter(bookmark=> {
+      return this.checkLabelFilter(bookmark)
+    });
+
+    if(this.filterValue && this.filterValue.trim()) {
+      let filterList = this.bookmarkList.filter(bookmark=> {
+        return (bookmark.title.toLowerCase().includes(this.filterValue.toLowerCase()) ||
+          bookmark.notes.toLowerCase().includes(this.filterValue.toLowerCase()));
+      });
+      this.bookmarkList = [...filterList];
+    }
+  }
+
+  updateFilterValue(event) {
+    this.filterValue = event.target.value;
+    this.filterBookmarkList();
+  }
+
   renderEditBookmarkDialog() {
     return (
       <sl-dialog label="Edit bookmark" class="edit-bookmark-dialog">
@@ -101,26 +161,13 @@ export class TkBookmarkList {
     );
   }
 
-  renderNormal() {
+  renderBookmarkFilter() {
     return (
-      <div>
-        {this.renderEditBookmarkDialog()}
-        Norma
-      </div>
-    );
-  }
-
-  renderBookmark(bookmark) {
-    return (
-      <sl-card class="card-header">
-        <div slot="header">
-          <a href={bookmark.url} title={bookmark.title} target="_blank">
-            {bookmark.title}
-          </a>
-          <sl-icon-button name="gear" label="Settings"></sl-icon-button>
-        </div>
-        {bookmark.notes}
-      </sl-card>
+      <sl-input size="medium"
+        onKeyUp={(event)=> {this.updateFilterValue(event)}}>
+        <sl-icon name="search" slot="prefix"></sl-icon>
+        <sl-badge slot="suffix" pill>{this.bookmarkList.length}/{state.bookmarks.length}</sl-badge>
+      </sl-input>
     );
   }
 
@@ -128,6 +175,7 @@ export class TkBookmarkList {
     return (
       <div>
       {this.renderEditBookmarkDialog()}
+      {this.renderBookmarkFilter()}
       { this.bookmarkList.map(bookmark =>
         <tk-bookmark-list-item bookmark={bookmark}></tk-bookmark-list-item>
       )}
@@ -140,10 +188,7 @@ export class TkBookmarkList {
       return;
     } 
 
-    if(this.isEditMode) {
-      return this.renderEditMode();
-    }
-    return this.renderNormal();
+    return this.renderEditMode();
   }
 
 }

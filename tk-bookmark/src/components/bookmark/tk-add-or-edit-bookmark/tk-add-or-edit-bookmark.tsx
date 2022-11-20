@@ -1,6 +1,9 @@
 import { Prop } from '@nestjs/mongoose';
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
 
+import state from '../../../stores/tk-bookmark-store';
+import { getLabelIdsFromExistingLabels } from '../../../utils/tk-bookmark-app-utils';
+
 @Component({
   tag: 'tk-add-or-edit-bookmark',
   shadow: false,
@@ -36,7 +39,44 @@ export class TkAddBookmark {
     this.notifyUpdateRequestObject.emit(this.requestObject);
   }
 
-  addBookmarkData() {
+  async createLabel(requestData) {
+    return fetch('http://localhost:3000/label', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    }).then(res => res.json());
+  }
+
+  async createNewLabelIds() {
+    let newLabelIds = [];
+
+    let newLabels = await document.querySelector('tk-add-tags').getTags();
+    let existingLabels = state.labels;
+    console.log(`size of new labels: ${newLabels.length}`);
+    console.log(`size of existing labels: ${state.labels.length}`);
+
+    //goal is to construct newLabelIds[]
+    newLabels.map(async newLabel => {
+      let existingLabel = existingLabels.find(label => label.caption.toLowerCase() === newLabel.caption.toLowerCase());
+      if(existingLabel) {
+        console.log(`found ${existingLabel.caption} within existing label list`);
+        newLabelIds.push(existingLabel._id);
+      } else {
+        console.log(`found new label: ${newLabel.caption}`);
+        //let newLabelData = await this.createLabel({caption: newLabel.caption});
+        //newLabelIds.push(newLabelData._id);
+      }
+    });
+    console.log(`constructed ids: ${newLabelIds}`);
+    return newLabelIds;
+  }
+
+  async addBookmarkData() {
+    let newLabelIds = await getLabelIdsFromExistingLabels(state.labels);
+    this.requestObject['labels'] = newLabelIds;
+    
     let response = fetch('http://localhost:3000/bookmark', {
       method: 'POST',
       headers: {
@@ -61,6 +101,21 @@ export class TkAddBookmark {
     }
   }
 
+  convertToCurrentTags() {
+    let existingLabels = state.labels;
+    let currentTags = [];
+
+    if(this.requestObject.labels) {
+      this.requestObject.labels.map(labelId => {
+        let existingLabel = existingLabels.find(existingLabel => existingLabel._id === labelId);
+        if(existingLabel) {
+          currentTags.push({caption: existingLabel.caption})
+        }
+      });
+    }
+    return currentTags;
+  }
+
   render() {
     return (
       <div>
@@ -70,8 +125,11 @@ export class TkAddBookmark {
         <sl-input name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
           onBlur={(e)=>this.handleRequestObjectChange('url', e.target.value)}>  
         </sl-input>
+        <tk-add-tags currentTags={this.convertToCurrentTags()}></tk-add-tags>
         <sl-textarea name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
           onBlur={(e)=>this.handleRequestObjectChange('notes', e.target.value)}></sl-textarea>
+
+        {console.log(`tk-add-or-edit-bookmark passing ${JSON.stringify(this.requestObject)}`)}
         
         {this.renderActionBar()}
       </div>

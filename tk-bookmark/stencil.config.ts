@@ -22,7 +22,11 @@ export const config: Config = {
       copy: [
         { src: '../node_modules/@shoelace-style/shoelace/dist',
           dest: 'shoelace'
-        }
+        },
+        // {
+        //   src: '../node_modules/chip-input/source',
+        //   dest: 'chip-input'
+        // }
       ]
     }
   ],

@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, h, Listen } from '@stencil/core';
 
 @Component({
   tag: 'app-root',
@@ -6,6 +6,22 @@ import { Component, Host, h } from '@stencil/core';
   shadow: false,
 })
 export class AppRoot {
+
+  @Listen('notifyLabelSelection')
+  async notifyLabelSelectionHanlder(event) {
+    let labels = event.detail;
+    let filterLabels = [];
+    labels.map(label=> {
+      if(label.selected) {
+        filterLabels.push(label.caption);
+      }
+    });
+    console.log(`detected label selection change ${filterLabels}`);
+
+    await customElements.whenDefined('tk-bookmark-list');
+    let element = document.querySelector('tk-bookmark-list');
+    element.setLabelFilterList(filterLabels);
+  }
 
   render() {
     return (

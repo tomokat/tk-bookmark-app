@@ -14,6 +14,16 @@ export class TkBookmarkListItem {
     this.requestEditBookmark.emit(this.bookmark);
   }
 
+  renderBookmarkLabels() {
+    return (
+      <div>
+        {this.bookmark.labelsForDisplay.map(label=>
+          <sl-badge>{label}</sl-badge>
+        )}
+      </div>
+    );
+  }
+
   render() {
     return (
       <sl-card class="card-header">
@@ -24,6 +34,7 @@ export class TkBookmarkListItem {
           <sl-icon-button name="gear" label="Settings"
             onClick={()=>this.editBookmark()}></sl-icon-button>
         </div>
+        {this.renderBookmarkLabels()}
         {this.bookmark.notes}
       </sl-card>
     );

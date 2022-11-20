@@ -1,4 +1,5 @@
 import { Component, Event, EventEmitter, h, Method, Prop, State } from '@stencil/core';
+import state from '../../../stores/tk-bookmark-store';
 
 @Component({
   tag: 'tk-label-list',
@@ -7,6 +8,7 @@ import { Component, Event, EventEmitter, h, Method, Prop, State } from '@stencil
 export class TkLabelList {
 
   @Event() deleteLabelSuccess: EventEmitter;
+  @Event() notifyLabelSelection: EventEmitter;
   @Event() updateLabelSuccess: EventEmitter;
 
   @Prop() isEditMode = false;
@@ -25,6 +27,7 @@ export class TkLabelList {
     let response = await fetch('http://localhost:3000/label');
     let json = await response.json();
     this.labelList = [...json];
+    state.labels = this.labelList;
     return;
   }
 
@@ -32,7 +35,7 @@ export class TkLabelList {
     console.log(`requested to delete [${label._id}, ${label.caption}]`);
     let response = await fetch(`http://localhost:3000/label/${label._id}`, {
       method: 'DELETE'
-    }).then(()=> {
+    }).then(() => {
       console.log(`Successfully deleted a label`);
       this.deleteLabelSuccess.emit();
       this.getLabelData();
@@ -47,7 +50,7 @@ export class TkLabelList {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(updateData)
-    }).then(()=> {
+    }).then(() => {
       this.updateLabelSuccess.emit();
     });
   }
@@ -55,17 +58,42 @@ export class TkLabelList {
   toggleLabelSelection(event, label) {
     label.selected = !label.selected;
     event.target.checked = label.selected;
+    console.log(`toggle label ${label.caption}`);
+    this.notifyLabelSelection.emit(this.labelList);
+  }
+
+  filterLabelList(event) {
+    let filterValue = event.target.value;
+    //console.log(`label fiter: ${filterValue}`);
+    this.labelList = state.labels;
+    if (filterValue && filterValue.trim()) {
+      let filterList = this.labelList.filter(label => {
+        return label.caption.toLowerCase().includes(filterValue.toLowerCase());
+      });
+      this.labelList = [...filterList];
+    }
+  }
+
+  renderLabelFilter() {
+    return (
+      <sl-input size="medium"
+        onKeyUp={(event) => { this.filterLabelList(event) }}>
+        <sl-icon name="search" slot="prefix"></sl-icon>
+        <sl-badge slot="suffix" pill>{this.labelList.length}/{state.labels.length}</sl-badge>
+      </sl-input>
+    );
   }
 
   renderNormal() {
     return (
       <div>
+        {this.renderLabelFilter()}
         <sl-menu>
-        {this.labelList.map(label =>
-          <sl-menu-item onClick={(event)=>this.toggleLabelSelection(event, label)}>
-            {label.caption}
-          </sl-menu-item>
-        )}
+          {this.labelList.map(label =>
+            <sl-menu-item onClick={(event) => this.toggleLabelSelection(event, label)}>
+              {label.caption}
+            </sl-menu-item>
+          )}
         </sl-menu>
       </div>
     );
@@ -74,10 +102,11 @@ export class TkLabelList {
   renderEditMode() {
     return (
       <div>
-        { this.labelList.map(label =>
+        {this.renderLabelFilter()}
+        {this.labelList.map(label =>
           <div>
-            <sl-input name="newLabelInput" value={label.caption} style={{width: '100%'}}
-              onBlur={(event)=>this.updateLabel(event, label)}>
+            <sl-input name="newLabelInput" value={label.caption} style={{ width: '100%' }}
+              onBlur={(event) => this.updateLabel(event, label)}>
               <sl-icon-button name="trash" slot="suffix" label="Add new label"
                 onClick={() => this.deleteLabel(label)}></sl-icon-button>
             </sl-input>
@@ -88,14 +117,13 @@ export class TkLabelList {
   }
 
   render() {
-    if(!this.labelList) {
+    if (!this.labelList) {
       return;
     }
 
-    if(this.isEditMode) {
+    if (this.isEditMode) {
       return this.renderEditMode();
     }
     return this.renderNormal();
   }
-
 }
