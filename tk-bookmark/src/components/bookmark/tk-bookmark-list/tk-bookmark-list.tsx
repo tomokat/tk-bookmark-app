@@ -62,6 +62,7 @@ export class TkBookmarkList {
     this.bookmarkList = [...json];
     this.appendLabelsForDisplay();
     state.bookmarks = this.bookmarkList;
+    this.filterBookmarkList();
     return;
   }
 

@@ -125,7 +125,7 @@ export class TkAddBookmark {
         <sl-input name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
           onBlur={(e)=>this.handleRequestObjectChange('url', e.target.value)}>  
         </sl-input>
-        <tk-add-tags currentTags={this.convertToCurrentTags()}></tk-add-tags>
+        <tk-add-tags currentTags={this.convertToCurrentTags()} existingTags={state.labels}></tk-add-tags>
         <sl-textarea name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
           onBlur={(e)=>this.handleRequestObjectChange('notes', e.target.value)}></sl-textarea>
 

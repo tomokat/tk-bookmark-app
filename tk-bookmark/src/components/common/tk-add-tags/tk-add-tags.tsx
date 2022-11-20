@@ -31,18 +31,7 @@ export class TkAddTags {
   }
 
   componentWillLoad() {
-    this.testData();
-  }
-
-  testData() {
-    this.existingTags = [
-      {caption: 'Programming'},
-      {caption: 'Cooking'},
-      {caption: 'Cat'},
-      {caption: 'Dog'},
-      {caption: 'Test'},
-      {caption: 'Design'}
-    ];
+    
   }
 
   convertValueToTags(event) {

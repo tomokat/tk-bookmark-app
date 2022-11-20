@@ -1,3 +1,13 @@
+async function createLabel(requestData) {
+  return await fetch('http://localhost:3000/label', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestData)
+  }).then(res => res.json());
+}
+
 async function getLabelIdsFromExistingLabels(existingLabels) {
   let newLabelIds = [];
 
@@ -13,7 +23,7 @@ async function getLabelIdsFromExistingLabels(existingLabels) {
       newLabelIds.push(existingLabel._id);
     } else {
       console.log(`found new label: ${newLabel.caption}`);
-      //let newLabelData = await this.createLabel({caption: newLabel.caption});
+      //let newLabelData = await createLabel({caption: newLabel.caption});
       //newLabelIds.push(newLabelData._id);
     }
   });
