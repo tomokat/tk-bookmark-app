@@ -35,7 +35,7 @@ export class TkLabelList {
 
   async deleteLabel(label) {
     console.log(`requested to delete [${label._id}, ${label.caption}]`);
-    let response = await fetch(`http://localhost:3000/label/${label._id}`, {
+    await fetch(`http://localhost:3000/label/${label._id}`, {
       method: 'DELETE'
     }).then(() => {
       console.log(`Successfully deleted a label`);
@@ -46,7 +46,7 @@ export class TkLabelList {
 
   async updateLabel(event, label) {
     let updateData = { caption: event.target.value };
-    let response = await fetch(`http://localhost:3000/label/${label._id}`, {
+    await fetch(`http://localhost:3000/label/${label._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

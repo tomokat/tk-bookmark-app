@@ -8,20 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
     interface TkAddLabel {
     }
     interface TkAddOrEditBookmark {
@@ -92,12 +78,6 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLTkAddLabelElement extends Components.TkAddLabel, HTMLStencilElement {
     }
     var HTMLTkAddLabelElement: {
@@ -160,7 +140,6 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-root": HTMLAppRootElement;
-        "my-component": HTMLMyComponentElement;
         "tk-add-label": HTMLTkAddLabelElement;
         "tk-add-or-edit-bookmark": HTMLTkAddOrEditBookmarkElement;
         "tk-add-tags": HTMLTkAddTagsElement;
@@ -175,20 +154,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppRoot {
-    }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
     }
     interface TkAddLabel {
         "onAddLabelSuccess"?: (event: TkAddLabelCustomEvent<any>) => void;
@@ -230,7 +195,6 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "app-root": AppRoot;
-        "my-component": MyComponent;
         "tk-add-label": TkAddLabel;
         "tk-add-or-edit-bookmark": TkAddOrEditBookmark;
         "tk-add-tags": TkAddTags;
@@ -248,7 +212,6 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "tk-add-label": LocalJSX.TkAddLabel & JSXBase.HTMLAttributes<HTMLTkAddLabelElement>;
             "tk-add-or-edit-bookmark": LocalJSX.TkAddOrEditBookmark & JSXBase.HTMLAttributes<HTMLTkAddOrEditBookmarkElement>;
             "tk-add-tags": LocalJSX.TkAddTags & JSXBase.HTMLAttributes<HTMLTkAddTagsElement>;

@@ -77,7 +77,7 @@ export class TkAddBookmark {
     let newLabelIds = await getLabelIdsFromExistingLabels(state.labels);
     this.requestObject['labels'] = newLabelIds;
     
-    let response = fetch('http://localhost:3000/bookmark', {
+    fetch('http://localhost:3000/bookmark', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

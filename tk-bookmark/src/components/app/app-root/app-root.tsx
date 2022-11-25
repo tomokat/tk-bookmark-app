@@ -1,7 +1,7 @@
 import { Component, h, Listen } from '@stencil/core';
 import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
-import state from '../../../stores/tk-bookmark-store';
+//import state from '../../../stores/tk-bookmark-store';
 
 import hotkeys from 'hotkeys-js';
 

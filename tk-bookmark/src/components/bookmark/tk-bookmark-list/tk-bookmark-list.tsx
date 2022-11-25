@@ -102,7 +102,7 @@ export class TkBookmarkList {
       labels: labelIds,
       notes: this.bookmarkInAction.notes
     };
-    let response = await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
+    await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ export class TkBookmarkList {
     if(!this.bookmarkInAction || !this.bookmarkInAction._id) {
       return;
     }
-    let response = await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
+    await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
       method: 'DELETE'
     }).then(()=> {
       this.toggleEditBookmarkModal(false);
