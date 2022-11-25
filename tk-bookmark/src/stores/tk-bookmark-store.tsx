@@ -2,11 +2,12 @@ import { createStore } from '@stencil/store';
 
 const { state, onChange } = createStore({
   bookmarks: [],
-  labels: []
+  labels: [],
+  loadedLabel: false
 });
 
-onChange('labels', value => {
-  console.log(`label change detected`);
+onChange('loadedLabel', value => {
+  console.log(`loadedLabel change detected [${value}]`);
 });
 
 export default state;

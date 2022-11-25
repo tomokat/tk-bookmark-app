@@ -1,4 +1,5 @@
 import { Component, h, Listen } from '@stencil/core';
+import state from '../../../stores/tk-bookmark-store';
 
 @Component({
   tag: 'app-root',
@@ -22,6 +23,16 @@ export class AppRoot {
     let element = document.querySelector('tk-bookmark-list');
     element.setLabelFilterList(filterLabels);
   }
+
+  @Listen('deleteLabelSuccess')
+  @Listen('updateLabelSuccess')
+  async reloadBookmarkListHandler() {
+    await customElements.whenDefined('tk-bookmark-list');
+    let element = document.querySelector('tk-bookmark-list');
+    console.log(`calling function`);
+    element.reloadBookmarkList();
+  }
+  
 
   render() {
     return (

@@ -14,9 +14,9 @@ export class TkBookmarkList {
   @Event() updateBookmarkSuccess: EventEmitter;
 
   //@Prop() isEditMode = true;
+  //@Prop() loadedLabel: boolean;
 
   @State() bookmarkInAction;
-
   @State() bookmarkList;
 
   filterValue;
@@ -49,18 +49,41 @@ export class TkBookmarkList {
     this.bookmarkInAction = event.detail;
   }
 
-  appendLabelsForDisplay() {
-    this.bookmarkList.map(bookmark => {
+  async waitUntilLabelLoaded() {
+    const loaded = new Promise((resolve)=> {
+      if(!state.loadedLabel) {
+        const fns = setInterval(()=> {
+          if(state.loadedLabel) {
+            console.log(`label loaded, resolving promise now`);
+            clearInterval(fns);
+            resolve('done');
+          } else {
+            console.log(`label not loaded still, waiting ....`);
+          }
+        }, 100);
+      } else {
+        return resolve('done');
+      }
+    });
+    await loaded;
+  }
+
+  async appendLabelsForDisplay(bookmarkList) {
+    //wait until label get loaded
+    await this.waitUntilLabelLoaded();
+    console.log(`appendLabelsForDisplay done waiting for label`);
+
+    bookmarkList.map(bookmark => {
       let labelsForDisplay = convertLabelIdsToLabels(bookmark.labels, state.labels);
       bookmark.labelsForDisplay = labelsForDisplay;
     });
+    this.bookmarkList = [...bookmarkList];
   }
 
   async getBookmarkData() {
     let response = await fetch('http://localhost:3000/bookmark');
     let json = await response.json();
-    this.bookmarkList = [...json];
-    this.appendLabelsForDisplay();
+    await this.appendLabelsForDisplay(json);
     state.bookmarks = this.bookmarkList;
     this.filterBookmarkList();
     return;

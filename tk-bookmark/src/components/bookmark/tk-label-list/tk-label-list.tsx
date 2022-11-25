@@ -24,10 +24,12 @@ export class TkLabelList {
   }
 
   async getLabelData() {
+    state.loadedLabel = false;
     let response = await fetch('http://localhost:3000/label');
     let json = await response.json();
     this.labelList = [...json];
     state.labels = this.labelList;
+    state.loadedLabel = true;
     return;
   }
 
