@@ -17,10 +17,15 @@ html {
   font-family: "Lucida Sans", sans-serif;
 }
 
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
 .header {
-  background-color: #338ccc;
+  background-color: #0069cc;
   color: #ffffff;
-  padding: 15px;
+  padding: 5px;
 }
 
 .menu ul {

@@ -17,25 +17,44 @@ export class TkBookmarkBar {
 
   renderViewIcon() {
     return (
-      <sl-avatar shape="rounded" label="View">
-        <sl-icon-button slot="icon" name="list"
-          onClick={()=>this.toggleMode()}></sl-icon-button>
-      </sl-avatar>
+      <div>
+        <sl-avatar shape="rounded" label="View">
+          <sl-icon-button slot="icon" name="list"
+            onClick={()=>this.toggleMode()}></sl-icon-button>
+        </sl-avatar>
+        {this.renderToggleViewTypeIcon()}
+      </div>
+      
     );
   }
 
   renderEditIcon() {
     return (
-      <sl-avatar shape="rounded" label="Edit">
-        <sl-icon-button slot="icon" name="plus-circle"
-          onClick={()=>this.toggleMode()}></sl-icon-button>
-      </sl-avatar>
+      <div>
+        <sl-avatar shape="rounded" label="Edit">
+          <sl-icon-button slot="icon" name="plus-circle"
+            onClick={()=>this.toggleMode()}></sl-icon-button>
+        </sl-avatar>
+        {this.renderToggleViewTypeIcon()}
+      </div>
+    );
+  }
+
+  renderToggleViewTypeIcon() {
+    return (
+      <span>
+        <sl-button-group>
+          <sl-button size="large">Card</sl-button>
+          <sl-button size="large">List</sl-button>
+          <sl-button size="large">Table</sl-button>
+        </sl-button-group>
+      </span>
     );
   }
 
   render() {
     return (
-      <div>
+      <div style={{padding: '5px'}}>
         { this.isEditMode
           ? this.renderViewIcon()
           : this.renderEditIcon()

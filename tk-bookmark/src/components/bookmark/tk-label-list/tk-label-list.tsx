@@ -27,7 +27,7 @@ export class TkLabelList {
     state.loadedLabel = false;
     let response = await fetch('http://localhost:3000/label');
     let json = await response.json();
-    this.labelList = [...json];
+    this.labelList = [...json.sort((a,b) => a.caption > b.caption ? 1: -1)];
     state.labels = this.labelList;
     state.loadedLabel = true;
     return;
@@ -78,7 +78,7 @@ export class TkLabelList {
 
   renderLabelFilter() {
     return (
-      <sl-input size="medium"
+      <sl-input size="medium" style={{paddingBottom: '5px'}}
         onKeyUp={(event) => { this.filterLabelList(event) }}>
         <sl-icon name="search" slot="prefix"></sl-icon>
         <sl-badge slot="suffix" pill>{this.labelList.length}/{state.labels.length}</sl-badge>

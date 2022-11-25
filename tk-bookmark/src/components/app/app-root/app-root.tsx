@@ -38,7 +38,10 @@ export class AppRoot {
     return (
       <div>
         <div class="header">
-          <h1>Bookmark Application</h1>
+          <h1 style={{padding: '3px'}}>
+            <sl-icon name="journal-check" style={{paddingRight: '5px'}}></sl-icon>
+            Bookmark Application
+          </h1>
         </div>
         
         <div class="row">

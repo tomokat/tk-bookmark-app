@@ -35,7 +35,7 @@ export class TkBookmarkLabelBar {
 
   render() {
     return (
-      <div>
+      <div style={{padding: '5px'}}>
         { this.isEditMode
           ? this.renderViewIcon()
           : this.renderEditIcon()

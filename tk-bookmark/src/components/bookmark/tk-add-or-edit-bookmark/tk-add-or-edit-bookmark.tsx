@@ -22,7 +22,7 @@ export class TkAddBookmark {
     this.initialize();
   }
 
-  initialize() {
+  async initialize() {
     this.requestObject = {
       title: '',
       url: '',
