@@ -14,7 +14,7 @@ export class BookmarkController {
 
   @Get()
   findAll() {
-    console.log(`connected to ${process.env.dbConnect}`);
+    //console.log(`connected to ${process.env.dbConnect}`);
     //console.log(`findAll() get called cwd: ${process.cwd()} : conn ${process.env.dbConnect}`);
     return this.bookmarkService.findAll();
   }
