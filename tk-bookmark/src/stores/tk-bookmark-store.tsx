@@ -1,6 +1,7 @@
 import { createStore } from '@stencil/store';
 
 const { state, onChange } = createStore({
+  bookmarkDisplayType: 'Card',
   bookmarks: [],
   labels: [],
   loadedLabel: false

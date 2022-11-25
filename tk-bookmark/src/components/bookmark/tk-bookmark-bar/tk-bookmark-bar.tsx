@@ -1,4 +1,11 @@
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
+import state from '../../../stores/tk-bookmark-store';
+
+enum BOOKMARK_DISPLAY_TYPE {
+  CARD = 'Card', 
+  LIST = 'List',
+  TABLE = 'Table'
+};
 
 @Component({
   tag: 'tk-bookmark-bar',
@@ -9,6 +16,8 @@ export class TkBookmarkBar {
   @Event() toggleBookmarkMode: EventEmitter;
 
   @State() isEditMode = false;
+
+  @State() bookmarkDisplayType = BOOKMARK_DISPLAY_TYPE.CARD;
 
   toggleMode() {
     this.isEditMode = !this.isEditMode;
@@ -40,13 +49,28 @@ export class TkBookmarkBar {
     );
   }
 
+  switchBookmarkDisplayType(displayType) {
+    state.bookmarkDisplayType = displayType;
+    this.bookmarkDisplayType = displayType;
+  }
+
+  getButtonVariant(displayType) {
+    if(this.bookmarkDisplayType === displayType) {
+      return 'primary';
+    }
+    return 'default';
+  }
+
   renderToggleViewTypeIcon() {
     return (
       <span>
         <sl-button-group>
-          <sl-button size="large">Card</sl-button>
-          <sl-button size="large">List</sl-button>
-          <sl-button size="large">Table</sl-button>
+          <sl-button size="large" variant={this.getButtonVariant(BOOKMARK_DISPLAY_TYPE.CARD)}
+            onClick={()=>this.switchBookmarkDisplayType(BOOKMARK_DISPLAY_TYPE.CARD)}>Card</sl-button>
+          <sl-button size="large" variant={this.getButtonVariant(BOOKMARK_DISPLAY_TYPE.LIST)}
+            onClick={()=>this.switchBookmarkDisplayType(BOOKMARK_DISPLAY_TYPE.LIST)}>List</sl-button>
+          <sl-button size="large" variant={this.getButtonVariant(BOOKMARK_DISPLAY_TYPE.TABLE)}
+            onClick={()=>this.switchBookmarkDisplayType(BOOKMARK_DISPLAY_TYPE.TABLE)}>Table</sl-button>
         </sl-button-group>
       </span>
     );

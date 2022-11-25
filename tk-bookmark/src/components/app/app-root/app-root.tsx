@@ -32,7 +32,6 @@ export class AppRoot {
     console.log(`calling function`);
     element.reloadBookmarkList();
   }
-  
 
   render() {
     return (
