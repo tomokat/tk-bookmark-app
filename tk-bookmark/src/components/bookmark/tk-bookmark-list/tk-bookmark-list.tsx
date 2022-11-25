@@ -81,7 +81,7 @@ export class TkBookmarkList {
   }
 
   async getBookmarkData() {
-    let response = await fetch('http://localhost:3000/bookmark');
+    let response = await fetch(`${state.bookmarkApi}/bookmark`);
     let json = await response.json();
     await this.appendLabelsForDisplay(json);
     state.bookmarks = this.bookmarkList;
@@ -102,7 +102,7 @@ export class TkBookmarkList {
       labels: labelIds,
       notes: this.bookmarkInAction.notes
     };
-    await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
+    await fetch(`${state.bookmarkApi}/bookmark/${this.bookmarkInAction._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ export class TkBookmarkList {
     if(!this.bookmarkInAction || !this.bookmarkInAction._id) {
       return;
     }
-    await fetch(`http://localhost:3000/bookmark/${this.bookmarkInAction._id}`, {
+    await fetch(`${state.bookmarkApi}/bookmark/${this.bookmarkInAction._id}`, {
       method: 'DELETE'
     }).then(()=> {
       this.toggleEditBookmarkModal(false);

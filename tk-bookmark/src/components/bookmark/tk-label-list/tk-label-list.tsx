@@ -25,7 +25,7 @@ export class TkLabelList {
 
   async getLabelData() {
     state.loadedLabel = false;
-    let response = await fetch('http://localhost:3000/label');
+    let response = await fetch(`${state.bookmarkApi}/label`);
     let json = await response.json();
     this.labelList = [...json.sort((a,b) => a.caption > b.caption ? 1: -1)];
     state.labels = this.labelList;
@@ -35,7 +35,7 @@ export class TkLabelList {
 
   async deleteLabel(label) {
     console.log(`requested to delete [${label._id}, ${label.caption}]`);
-    await fetch(`http://localhost:3000/label/${label._id}`, {
+    await fetch(`${state.bookmarkApi}/label/${label._id}`, {
       method: 'DELETE'
     }).then(() => {
       console.log(`Successfully deleted a label`);
@@ -46,7 +46,7 @@ export class TkLabelList {
 
   async updateLabel(event, label) {
     let updateData = { caption: event.target.value };
-    await fetch(`http://localhost:3000/label/${label._id}`, {
+    await fetch(`${state.bookmarkApi}/label/${label._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

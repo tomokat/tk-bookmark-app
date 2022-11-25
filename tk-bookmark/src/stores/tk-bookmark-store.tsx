@@ -1,6 +1,14 @@
 import { createStore } from '@stencil/store';
 
+function getBookmarkApiPerEnvironment() {
+  if(location.hostname === 'localhost' && location.port === '3333') {
+    return 'http://localhost:3000';
+  }
+  return '';
+}
+
 const { state, onChange } = createStore({
+  bookmarkApi: getBookmarkApiPerEnvironment(),
   bookmarkDisplayType: 'Card',
   bookmarks: [],
   labels: [],

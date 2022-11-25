@@ -1,5 +1,7 @@
 import { Component, Event, EventEmitter, h } from '@stencil/core';
 
+import state from '../../../stores/tk-bookmark-store';
+
 @Component({
   tag: 'tk-add-label',
   shadow: false,
@@ -12,7 +14,7 @@ export class TkAddLabel {
    let newLabel = event.target.parentElement.value;
     if(newLabel && newLabel.trim() !== '') {
       let requestData = { 'caption': newLabel };
-      fetch('http://localhost:3000/label', {
+      fetch(`${state.bookmarkApi}/label`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

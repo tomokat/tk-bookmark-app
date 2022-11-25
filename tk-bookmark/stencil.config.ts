@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import dotenvPlugin from 'rollup-plugin-dotenv';
 
 export const config: Config = {
   namespace: 'tk-bookmark',
@@ -30,4 +31,7 @@ export const config: Config = {
       ]
     }
   ],
+  plugins: [
+    dotenvPlugin()
+  ]
 };

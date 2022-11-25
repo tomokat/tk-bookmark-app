@@ -40,7 +40,7 @@ export class TkAddBookmark {
   }
 
   async createLabel(requestData) {
-    return fetch('http://localhost:3000/label', {
+    return fetch(`${state.bookmarkApi}/label`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export class TkAddBookmark {
     let newLabelIds = await getLabelIdsFromExistingLabels(state.labels);
     this.requestObject['labels'] = newLabelIds;
     
-    fetch('http://localhost:3000/bookmark', {
+    fetch(`${state.bookmarkApi}/bookmark`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

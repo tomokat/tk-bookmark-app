@@ -1,5 +1,5 @@
 // async function createLabel(requestData) {
-//   return await fetch('http://localhost:3000/label', {
+//   return await fetch(`${state.bookmarkApi}/label`, {
 //     method: 'POST',
 //     headers: {
 //       'Content-Type': 'application/json'
