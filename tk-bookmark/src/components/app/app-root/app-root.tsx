@@ -1,5 +1,9 @@
 import { Component, h, Listen } from '@stencil/core';
+import { SlDialog, SlInput } from '@shoelace-style/shoelace';
+
 import state from '../../../stores/tk-bookmark-store';
+
+import hotkeys from 'hotkeys-js';
 
 @Component({
   tag: 'app-root',
@@ -33,9 +37,67 @@ export class AppRoot {
     element.reloadBookmarkList();
   }
 
+  componentWillRender() {
+    this.initializeHotKeys();
+  }
+
+  shouldTrigger(event) {
+    let target = event.target as Element;
+    let tagName = target.tagName;
+    return tagName === 'BODY';
+  }
+
+  initializeHotKeys() {
+    hotkeys('shift+/', event => {
+      if(this.shouldTrigger(event)) {
+        console.log(`help dialog requested`);
+        this.toggleHelpModal(true);
+      }
+    });
+
+    hotkeys('b, s, l', (event, handler) => {
+      if(this.shouldTrigger(event)) {
+        console.log(`set focus on bookmark search requested`);
+        if(handler.key === 'b' || handler.key === 's') {
+          this.setFocusOn('.bookmarkListFilter');
+        } else if(handler.key === 'l') {
+          this.setFocusOn('.labelListFilter');
+        }
+        event.preventDefault();
+      }
+    });
+  }
+
+  setFocusOn(targetClassName) {
+    const input = document.querySelector(targetClassName) as SlInput;
+    if(input) {
+      input.focus();
+    }
+  }
+
+  toggleHelpModal(open: boolean) {
+    const dialog = document.querySelector('.help-dialog') as SlDialog;
+    if(open) {
+      dialog.show();
+    } else {
+      dialog.hide();
+    }
+  }
+
+  renderHelpDialog() {
+    return (
+      <sl-dialog label="Help" class="help-dialog">
+        <sl-badge>?</sl-badge> = open help dialog<br/>
+        <sl-badge>b, s</sl-badge> = set focus on boomkark filter<br/>
+        <sl-badge>l</sl-badge> = set focus on label filter<br/>
+      </sl-dialog>
+    );
+  }
+
   render() {
     return (
       <div>
+        {this.renderHelpDialog()}
         <div class="header">
           <h1 style={{padding: '3px'}}>
             <sl-icon name="journal-check" style={{paddingRight: '5px'}}></sl-icon>

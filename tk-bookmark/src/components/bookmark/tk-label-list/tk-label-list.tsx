@@ -78,7 +78,7 @@ export class TkLabelList {
 
   renderLabelFilter() {
     return (
-      <sl-input size="medium" style={{paddingBottom: '5px'}}
+      <sl-input class="labelListFilter" size="medium" style={{paddingBottom: '5px'}}
         onKeyUp={(event) => { this.filterLabelList(event) }}>
         <sl-icon name="search" slot="prefix"></sl-icon>
         <sl-badge slot="suffix" pill>{this.labelList.length}/{state.labels.length}</sl-badge>

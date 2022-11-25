@@ -187,7 +187,7 @@ export class TkBookmarkList {
 
   renderBookmarkFilter() {
     return (
-      <sl-input size="medium" style={{paddingBottom: '5px'}}
+      <sl-input class="bookmarkListFilter" size="medium" style={{paddingBottom: '5px'}}
         onKeyUp={(event)=> {this.updateFilterValue(event)}}>
         <sl-icon name="search" slot="prefix"></sl-icon>
         <sl-badge slot="suffix" pill>{this.bookmarkList.length}/{state.bookmarks.length}</sl-badge>
