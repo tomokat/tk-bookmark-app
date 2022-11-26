@@ -15,8 +15,8 @@
 ### Graph
 ```mermaid
 graph TD;
-  app-root --> tk-bookmark-label
-  app-root --> tk-bookmark
+  tk-bookmark-app-root --> tk-bookmark-label
+  tk-bookmark-app-root --> tk-bookmark
   tk-bookmark-label --> tk-bookmark-label-bar
   tk-bookmark-label --> tk-label-list
   tk-bookmark-label --> tk-add-label
@@ -26,7 +26,7 @@ graph TD;
   tk-bookmark-list --> tk-add-or-edit-bookmark
   tk-bookmark-list --> tk-bookmark-list-item
   tk-add-or-edit-bookmark --> tk-add-tags
-  style app-root fill:#f9f,stroke:#333,stroke-width:4px
+  style tk-bookmark-app-root fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

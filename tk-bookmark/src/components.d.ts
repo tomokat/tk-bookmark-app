@@ -6,8 +6,6 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface AppRoot {
-    }
     interface TkAddLabel {
     }
     interface TkAddOrEditBookmark {
@@ -20,6 +18,8 @@ export namespace Components {
         "getTags": () => Promise<any[]>;
     }
     interface TkBookmark {
+    }
+    interface TkBookmarkAppRoot {
     }
     interface TkBookmarkBar {
     }
@@ -72,12 +72,6 @@ export interface TkLabelListCustomEvent<T> extends CustomEvent<T> {
     target: HTMLTkLabelListElement;
 }
 declare global {
-    interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
-    }
-    var HTMLAppRootElement: {
-        prototype: HTMLAppRootElement;
-        new (): HTMLAppRootElement;
-    };
     interface HTMLTkAddLabelElement extends Components.TkAddLabel, HTMLStencilElement {
     }
     var HTMLTkAddLabelElement: {
@@ -101,6 +95,12 @@ declare global {
     var HTMLTkBookmarkElement: {
         prototype: HTMLTkBookmarkElement;
         new (): HTMLTkBookmarkElement;
+    };
+    interface HTMLTkBookmarkAppRootElement extends Components.TkBookmarkAppRoot, HTMLStencilElement {
+    }
+    var HTMLTkBookmarkAppRootElement: {
+        prototype: HTMLTkBookmarkAppRootElement;
+        new (): HTMLTkBookmarkAppRootElement;
     };
     interface HTMLTkBookmarkBarElement extends Components.TkBookmarkBar, HTMLStencilElement {
     }
@@ -139,11 +139,11 @@ declare global {
         new (): HTMLTkLabelListElement;
     };
     interface HTMLElementTagNameMap {
-        "app-root": HTMLAppRootElement;
         "tk-add-label": HTMLTkAddLabelElement;
         "tk-add-or-edit-bookmark": HTMLTkAddOrEditBookmarkElement;
         "tk-add-tags": HTMLTkAddTagsElement;
         "tk-bookmark": HTMLTkBookmarkElement;
+        "tk-bookmark-app-root": HTMLTkBookmarkAppRootElement;
         "tk-bookmark-bar": HTMLTkBookmarkBarElement;
         "tk-bookmark-label": HTMLTkBookmarkLabelElement;
         "tk-bookmark-label-bar": HTMLTkBookmarkLabelBarElement;
@@ -153,8 +153,6 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    interface AppRoot {
-    }
     interface TkAddLabel {
         "onAddLabelSuccess"?: (event: TkAddLabelCustomEvent<any>) => void;
     }
@@ -170,6 +168,8 @@ declare namespace LocalJSX {
         "onNotifyUpdateTags"?: (event: TkAddTagsCustomEvent<any>) => void;
     }
     interface TkBookmark {
+    }
+    interface TkBookmarkAppRoot {
     }
     interface TkBookmarkBar {
         "onToggleBookmarkMode"?: (event: TkBookmarkBarCustomEvent<any>) => void;
@@ -194,11 +194,11 @@ declare namespace LocalJSX {
         "onUpdateLabelSuccess"?: (event: TkLabelListCustomEvent<any>) => void;
     }
     interface IntrinsicElements {
-        "app-root": AppRoot;
         "tk-add-label": TkAddLabel;
         "tk-add-or-edit-bookmark": TkAddOrEditBookmark;
         "tk-add-tags": TkAddTags;
         "tk-bookmark": TkBookmark;
+        "tk-bookmark-app-root": TkBookmarkAppRoot;
         "tk-bookmark-bar": TkBookmarkBar;
         "tk-bookmark-label": TkBookmarkLabel;
         "tk-bookmark-label-bar": TkBookmarkLabelBar;
@@ -211,11 +211,11 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "tk-add-label": LocalJSX.TkAddLabel & JSXBase.HTMLAttributes<HTMLTkAddLabelElement>;
             "tk-add-or-edit-bookmark": LocalJSX.TkAddOrEditBookmark & JSXBase.HTMLAttributes<HTMLTkAddOrEditBookmarkElement>;
             "tk-add-tags": LocalJSX.TkAddTags & JSXBase.HTMLAttributes<HTMLTkAddTagsElement>;
             "tk-bookmark": LocalJSX.TkBookmark & JSXBase.HTMLAttributes<HTMLTkBookmarkElement>;
+            "tk-bookmark-app-root": LocalJSX.TkBookmarkAppRoot & JSXBase.HTMLAttributes<HTMLTkBookmarkAppRootElement>;
             "tk-bookmark-bar": LocalJSX.TkBookmarkBar & JSXBase.HTMLAttributes<HTMLTkBookmarkBarElement>;
             "tk-bookmark-label": LocalJSX.TkBookmarkLabel & JSXBase.HTMLAttributes<HTMLTkBookmarkLabelElement>;
             "tk-bookmark-label-bar": LocalJSX.TkBookmarkLabelBar & JSXBase.HTMLAttributes<HTMLTkBookmarkLabelBarElement>;

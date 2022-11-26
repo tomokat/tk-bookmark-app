@@ -6,8 +6,8 @@ import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 import hotkeys from 'hotkeys-js';
 
 @Component({
-  tag: 'app-root',
-  styleUrl: 'app-root.css',
+  tag: 'tk-bookmark-app-root',
+  styleUrl: 'tk-bookmark-app-root.css',
   shadow: false,
 })
 export class AppRoot {

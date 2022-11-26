@@ -1,5 +1,5 @@
 {
-  "name": "tk-bookmark-component",
+  "name": "tk-bookmark-components",
   "version": "0.2.0",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",

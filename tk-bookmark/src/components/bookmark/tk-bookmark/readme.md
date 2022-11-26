@@ -9,7 +9,7 @@
 
 ### Used by
 
- - [app-root](../../app/app-root)
+ - [tk-bookmark-app-root](../../app/tk-bookmark-app-root)
 
 ### Depends on
 
@@ -26,7 +26,7 @@ graph TD;
   tk-bookmark-list --> tk-add-or-edit-bookmark
   tk-bookmark-list --> tk-bookmark-list-item
   tk-add-or-edit-bookmark --> tk-add-tags
-  app-root --> tk-bookmark
+  tk-bookmark-app-root --> tk-bookmark
   style tk-bookmark fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
