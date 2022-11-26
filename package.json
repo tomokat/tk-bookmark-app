@@ -1,9 +1,8 @@
 {
-  "name": "tk-bookmark-app",
+  "name": "tk-bookmark-component",
   "version": "0.1.0",
   "description": "",
   "author": "",
-  "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
