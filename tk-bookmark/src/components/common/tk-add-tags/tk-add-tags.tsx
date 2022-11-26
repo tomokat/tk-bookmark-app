@@ -1,6 +1,8 @@
 import { Prop } from '@nestjs/mongoose';
 import { Component, Event, EventEmitter, h, State, Method, Watch } from '@stencil/core';
 
+import { SlDropdown } from '@shoelace-style/shoelace';
+
 @Component({
   tag: 'tk-add-tags',
   styleUrl: 'tk-add-tags.css',
@@ -14,6 +16,9 @@ export class TkAddTags {
   @Prop() currentTags;
 
   @State() tags = [];
+
+  enteredLabelValue;
+  @State() matchedTags = [];
 
   @Method()
   async getTags() {
@@ -34,15 +39,16 @@ export class TkAddTags {
     
   }
 
-  convertValueToTags(event) {
-    let value = event.target.value;
+  convertValueToTags(event, value) {
+    if(this.matchedTags.length > 0) {
+      return;
+    }
+
+    //let value = event.target.value;
     if(value && value.trim()) {
-      let data = value.split(' ');
-      data.map(item => {
-        this.tags.push({caption: item});
-      });
-      console.log(`converted ${value} to ${this.tags}`);
-      this.updateTags(this.tags);
+      this.addTag(value);
+      //this.tags.push({caption: value});
+      //this.updateTags(this.tags);
       event.target.value = '';
     }
   }
@@ -51,14 +57,12 @@ export class TkAddTags {
     return this.existingTags.find(tag => tag.caption.toLowerCase() == caption.toLowerCase());
   }
 
-  addTag(event) {
-    let value = event.target.value;
-    if(value && value.trim()) {
-      console.log(`selected ${value}`);
-      this.tags.push({caption: value});
-      this.updateTags(this.tags);
-      event.target.value = '';
-    }
+  setTag(event, tagCaption) {
+    let tagInput = document.querySelector('.tagInput') as HTMLInputElement;
+    this.addTag(tagCaption);
+    //this.tags.push({caption: tagCaption});
+    //this.updateTags(this.tags);
+    tagInput.value = '';
   }
 
   removeTag(targetTag) {
@@ -68,30 +72,86 @@ export class TkAddTags {
     this.updateTags(result);
   }
 
+  addTag(tagCaption) {
+    let targetTag = this.currentTags.find(currentTag => {
+      return currentTag.caption === tagCaption
+    });
+    if(targetTag) {
+      console.log(`already existing tag - not going to add one`);
+      return;
+    }
+
+    this.tags.push({caption: tagCaption});
+    this.updateTags(this.tags);
+  }
+
   updateTags(result) {
     this.tags = [...result];
     this.notifyUpdateTags.emit(this.tags);
   }
 
+  findMatchedTags(value) {
+    let result = [];
+    this.existingTags.map(existingTag => {
+      if(existingTag.caption.toLowerCase().includes(value.toLowerCase())) {
+        result.push(existingTag);
+      }
+    });
+    return result;
+  }
+
+  handleLabelInput(event) {
+    let enteredValue = event.target.value;
+    console.log(`keyUp: ${enteredValue}`);
+    if(enteredValue && enteredValue.trim()) {
+      //construct menu on the fly
+      this.matchedTags = [...this.findMatchedTags(enteredValue)];
+      console.log(`there are ${this.matchedTags.length} labels found`);
+      let dropdownElement = document.querySelector('.matchedTagDropdown') as SlDropdown;
+      
+      if(this.matchedTags.length > 0) {
+        dropdownElement.show();
+      } else {
+        dropdownElement.hide();
+      }
+    }
+  }
+
+  getTagVariant(tag) {
+    let targetTag = this.existingTags.find(existingTag => {
+      return existingTag.caption === tag.caption
+    });
+    console.log(`check ${tag.caption}, targetTag: ${targetTag}`);
+    if(targetTag) {
+      return 'neutral';
+    }
+    return 'success';
+  } 
+
+  renderTags() {
+    return (
+      this.tags.map(tag =>
+        <sl-tag style={{padding: '5px'}} variant={this.getTagVariant(tag)} size="medium" removable
+          onClick={()=>this.removeTag(tag)}>{tag.caption}</sl-tag>
+      )
+    );
+  }
+
   render() {
     return (
       <div class="tk-add-tags-holder">
-        <div style={{padding:'10px'}}>
-          <input list="existingTagList" onBlur={(event)=>this.addTag(event)} />
-          <datalist id="existingTagList">
-            {this.existingTags.map((existingTag)=>
-              <option value={existingTag.caption}></option>
+        {this.renderTags()}
+        <sl-input class="tagInput" style={{padding:'10px'}} placeholder="Labels"
+          onKeyUp={(event)=>{this.handleLabelInput(event)}}
+          onBlur={(event)=>this.convertValueToTags(event, event.target.value)}></sl-input>
+        <sl-dropdown class="matchedTagDropdown" style={{position: 'relative', top: '-20px', left: '20px'}}>
+          <sl-menu>
+            {this.matchedTags.map(matchedTag =>
+              <sl-menu-item onClick={(event) => this.setTag(event, matchedTag.caption)}>{matchedTag.caption}</sl-menu-item>
             )}
-          </datalist>
-        </div>
-        <sl-input style={{padding:'10px'}} placeholder="New labels"
-          onBlur={(event)=>this.convertValueToTags(event)}></sl-input>
-        {/* App Chip Input:
-        <app-chip-input></app-chip-input> */}
-        {this.tags.map(tag =>
-          <sl-tag style={{padding: '5px'}} size="medium" removable
-            onClick={()=>this.removeTag(tag)}>{tag.caption}</sl-tag>
-        )}
+          </sl-menu>
+        </sl-dropdown>
+        
       </div>
     );
   }

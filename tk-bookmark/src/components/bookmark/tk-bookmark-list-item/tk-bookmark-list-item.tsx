@@ -17,7 +17,7 @@ export class TkBookmarkListItem {
 
   renderCardView() {
     return (
-      <sl-card class="card-header">
+      <sl-card class="card-header" style={{width: '33%'}}>
         <div slot="header">
           <a href={this.bookmark.url} title={this.bookmark.title} target="_blank">
             {this.bookmark.title}
