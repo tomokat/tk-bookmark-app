@@ -2,9 +2,9 @@ import { createStore } from '@stencil/store';
 
 function getBookmarkApiPerEnvironment() {
   if(location.hostname === 'localhost' && location.port === '3333') {
-    return 'http://localhost:3000';
+    return 'http://localhost:3000/bookmark-api';
   }
-  return '';
+  return 'bookmark-api';
 }
 
 const { state, onChange } = createStore({
