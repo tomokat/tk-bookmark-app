@@ -11,6 +11,7 @@ import { getLabelIdsFromExistingLabels } from '../../../utils/tk-bookmark-app-ut
 export class TkAddBookmark {
 
   @Event() addBookmarkSuccess: EventEmitter;
+  @Event() closeAddBookmark: EventEmitter;
   @Event() notifyUpdateRequestObject: EventEmitter;
 
   @Prop() forNewBookmark: boolean;
@@ -49,6 +50,23 @@ export class TkAddBookmark {
     }).then(res => res.json());
   }
 
+  clearForm() {
+    let titleInput = document.querySelector('.bookmarkTitle') as HTMLInputElement;
+    titleInput.value = '';
+    let urlInput = document.querySelector('.bookmarkUrl') as HTMLInputElement;
+    urlInput.value = '';
+    let notesInput = document.querySelector('.bookmarkNotes') as HTMLInputElement;
+    notesInput.value = '';
+    titleInput.focus();
+
+    this.requestObject = {
+      title: '',
+      url: '',
+      notes: ''
+    };
+    this.requestObject = {...this.requestObject};
+  }
+
   async createNewLabelIds() {
     let newLabelIds = [];
 
@@ -59,21 +77,23 @@ export class TkAddBookmark {
 
     //goal is to construct newLabelIds[]
     newLabels.map(async newLabel => {
-      let existingLabel = existingLabels.find(label => label.caption.toLowerCase() === newLabel.caption.toLowerCase());
+      let existingLabel = existingLabels.find(label => {
+        return label.caption.toLowerCase() === newLabel.caption.toLowerCase();
+      });
       if(existingLabel) {
         console.log(`found ${existingLabel.caption} within existing label list`);
         newLabelIds.push(existingLabel._id);
       } else {
         console.log(`found new label: ${newLabel.caption}`);
-        //let newLabelData = await this.createLabel({caption: newLabel.caption});
-        //newLabelIds.push(newLabelData._id);
+        let newLabelData = await this.createLabel({caption: newLabel.caption});
+        newLabelIds.push(newLabelData._id);
       }
     });
     console.log(`constructed ids: ${newLabelIds}`);
     return newLabelIds;
   }
 
-  async addBookmarkData() {
+  async addBookmarkData(stayInAdd) {
     let newLabelIds = await getLabelIdsFromExistingLabels(state.labels);
     this.requestObject['labels'] = newLabelIds;
     
@@ -84,8 +104,15 @@ export class TkAddBookmark {
       },
       body: JSON.stringify(this.requestObject)
     }).then(()=> {
-      this.addBookmarkSuccess.emit();
+      if(stayInAdd) {
+        this.clearForm();
+      }
+      this.addBookmarkSuccess.emit({stayInAdd: stayInAdd, reloadLabel: true});
     });
+  }
+
+  cancelAdd() {
+    this.closeAddBookmark.emit();
   }
 
   renderActionBar() {
@@ -93,9 +120,11 @@ export class TkAddBookmark {
       return (
         <div style={{padding: '5px'}}>
           <sl-button variant="primary" style={{padding: '5px'}}
-            onClick={()=>this.addBookmarkData()}>Add</sl-button>
-          <sl-button variant="default">Next</sl-button>
-          <sl-button variant="text">Cancel</sl-button>
+            onClick={()=>this.addBookmarkData(false)}>Add</sl-button>
+          <sl-button variant="default"
+            onClick={()=>this.addBookmarkData(true)}>Next</sl-button>
+          <sl-button variant="text"
+            onClick={()=>this.cancelAdd()}>Cancel</sl-button>
         </div>
       );
     }
@@ -117,16 +146,17 @@ export class TkAddBookmark {
   }
 
   render() {
+    console.log(`render() called w/ ${JSON.stringify(this.requestObject)}`);
     return (
       <div style={{padding: '5px', backgroundColor: 'cornsilk'}}>
-        <sl-input name="bookmarkTitle" placeholder="Title" value={this.requestObject.title}
+        <sl-input class="bookmarkTitle" name="bookmarkTitle" placeholder="Title" value={this.requestObject.title}
           onBlur={(e)=>this.handleRequestObjectChange('title', e.target.value)}>  
         </sl-input>
-        <sl-input name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
+        <sl-input class="bookmarkUrl" name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
           onBlur={(e)=>this.handleRequestObjectChange('url', e.target.value)}>  
         </sl-input>
         <tk-add-tags currentTags={this.convertToCurrentTags()} existingTags={state.labels}></tk-add-tags>
-        <sl-textarea name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
+        <sl-textarea class="bookmarkNotes" name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
           onBlur={(e)=>this.handleRequestObjectChange('notes', e.target.value)}></sl-textarea>
 
         {console.log(`tk-add-or-edit-bookmark passing ${JSON.stringify(this.requestObject)}`)}

@@ -27,11 +27,11 @@ export class TkAddTags {
 
   @Watch('currentTags')
   currentTagsHandler () {
-    console.log(`currentTags has been updated`);
+    //console.log(`currentTags has been updated`);
     if(this.currentTags) {
       this.tags = [...this.currentTags];
     } else {
-      console.log(`currentTags is empty?!`);
+      //console.log(`currentTags is empty?!`);
     }
   }
 
@@ -101,11 +101,11 @@ export class TkAddTags {
 
   handleLabelInput(event) {
     let enteredValue = event.target.value;
-    console.log(`keyUp: ${enteredValue}`);
+    //console.log(`keyUp: ${enteredValue}`);
     if(enteredValue && enteredValue.trim()) {
       //construct menu on the fly
       this.matchedTags = [...this.findMatchedTags(enteredValue)];
-      console.log(`there are ${this.matchedTags.length} labels found`);
+      //console.log(`there are ${this.matchedTags.length} labels found`);
       let dropdownElement = document.querySelector('.matchedTagDropdown') as SlDropdown;
       
       if(this.matchedTags.length > 0) {

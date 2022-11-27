@@ -160,6 +160,7 @@ declare namespace LocalJSX {
         "bookmark"?: any;
         "forNewBookmark"?: boolean;
         "onAddBookmarkSuccess"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
+        "onCloseAddBookmark"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
         "onNotifyUpdateRequestObject"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
     }
     interface TkAddTags {

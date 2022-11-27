@@ -8,6 +8,7 @@ export class TkBookmark {
 
   @State() isEditMode = false;
 
+  @Listen('closeAddBookmark')
   @Listen('toggleBookmarkMode')
   async toggleBookmarkModeHandler() {
     this.isEditMode = !this.isEditMode;
@@ -16,14 +17,25 @@ export class TkBookmark {
   @Listen('addBookmarkSuccess')
   @Listen('deleteBookmarkSuccess')
   @Listen('updateBookmarkSuccess')
-  async reloadBookmarkLabelHandler() {
-    console.log(`received event - about to refresh bookmark list`);
+  async reloadBookmarkLabelHandler(event) {
+    console.log(`received event - about to refresh bookmark list ${event.detail}`);
+    let detail = event.detail;
     
+    if(detail && detail.reloadLabel) {
+      await customElements.whenDefined('tk-label-list');
+      let element = document.querySelector('tk-label-list');
+      element.reloadLabelList();
+    }
+
     await customElements.whenDefined('tk-bookmark-list');
     let element = document.querySelector('tk-bookmark-list');
-    console.log(`calling function`);
-    this.isEditMode = false;
+    
+    if(!detail || !detail.stayInAdd) {
+      this.isEditMode = false;
+    }
     element.reloadBookmarkList();
+
+    
   };
 
   renderNormal() {

@@ -1,12 +1,14 @@
-// async function createLabel(requestData) {
-//   return await fetch(`${state.bookmarkApi}/label`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(requestData)
-//   }).then(res => res.json());
-// }
+import state from '../stores/tk-bookmark-store';
+
+async function createLabel(requestData) {
+  return await fetch(`${state.bookmarkApi}/label`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestData)
+  }).then(res => res.json());
+}
 
 async function getLabelIdsFromExistingLabels(existingLabels) {
   let newLabelIds = [];
@@ -16,17 +18,19 @@ async function getLabelIdsFromExistingLabels(existingLabels) {
   console.log(`size of existing labels: ${existingLabels.length}`);
 
   //goal is to construct newLabelIds[]
-  newLabels.map(async newLabel => {
+  await Promise.all(newLabels.map(async newLabel => {
     let existingLabel = existingLabels.find(label => label.caption.toLowerCase() === newLabel.caption.toLowerCase());
     if(existingLabel) {
       console.log(`found ${existingLabel.caption} within existing label list`);
       newLabelIds.push(existingLabel._id);
     } else {
       console.log(`found new label: ${newLabel.caption}`);
-      //let newLabelData = await createLabel({caption: newLabel.caption});
-      //newLabelIds.push(newLabelData._id);
+      let newLabelData = await createLabel({caption: newLabel.caption});
+      console.log(`>>>> new label data: ${JSON.stringify(newLabelData)}`);
+      newLabelIds.push(newLabelData._id);
     }
-  });
+  }));
+  
   console.log(`constructed ids: ${newLabelIds}`);
   return newLabelIds;
 }

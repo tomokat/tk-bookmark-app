@@ -110,7 +110,7 @@ export class TkBookmarkList {
       body: JSON.stringify(requestObject)
     }).then(()=> {
       this.toggleEditBookmarkModal(false);
-      this.updateBookmarkSuccess.emit();
+      this.updateBookmarkSuccess.emit({stayInAdd: false, reloadLabel: true});
     });
   }
 
