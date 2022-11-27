@@ -3,6 +3,8 @@ import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
 //import state from '../../../stores/tk-bookmark-store';
 
+import { version } from '../../../../../package.json';
+
 import hotkeys from 'hotkeys-js';
 
 @Component({
@@ -90,6 +92,8 @@ export class AppRoot {
         <sl-badge>?</sl-badge> = open help dialog<br/>
         <sl-badge>b, s</sl-badge> = set focus on boomkark filter<br/>
         <sl-badge>l</sl-badge> = set focus on label filter<br/>
+        <sl-divider></sl-divider>
+        <div>Version: {version} </div>
       </sl-dialog>
     );
   }
