@@ -47,8 +47,6 @@ export class TkAddTags {
     //let value = event.target.value;
     if(value && value.trim()) {
       this.addTag(value);
-      //this.tags.push({caption: value});
-      //this.updateTags(this.tags);
       event.target.value = '';
     }
   }
