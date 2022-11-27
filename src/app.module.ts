@@ -19,8 +19,8 @@ import { LabelModule } from './label/label.module';
       load: [configuration]
     }),
     ServeStaticModule.forRoot({
-      //rootPath: join(__dirname, '..', '../tk-bookmark/www'),
-      rootPath: join(__dirname, '..', '../cdn-test'),
+      rootPath: join(__dirname, '..', '../tk-bookmark/www'),
+      //rootPath: join(__dirname, '..', '../cdn-test'),
     }),
     MongooseModule.forRoot(process.env.dbConnect),
     BookmarkModule, LabelModule],
