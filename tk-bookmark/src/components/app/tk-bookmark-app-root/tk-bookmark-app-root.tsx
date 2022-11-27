@@ -1,4 +1,4 @@
-import { Component, h, Listen } from '@stencil/core';
+import { Component, h, Listen, State } from '@stencil/core';
 import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
 //import state from '../../../stores/tk-bookmark-store';
@@ -15,6 +15,8 @@ import hotkeys from 'hotkeys-js';
   shadow: false,
 })
 export class AppRoot {
+
+  @State() sideMenuOpen = false;
 
   @Listen('notifyLabelSelection')
   async notifyLabelSelectionHanlder(event) {
@@ -101,22 +103,55 @@ export class AppRoot {
     );
   }
 
+  void() {
+
+  }
+
+  toggleSideMenu(show) {
+    this.sideMenuOpen = show;
+
+    let sideMenu = document.querySelector('.w3-sidebar') as HTMLElement;
+    let overlay = document.querySelector('.w3-overlay') as HTMLElement;
+    if(show) {
+      sideMenu.style.display = 'block';
+      overlay.style.display = 'block';
+    } else {
+      sideMenu.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+  }
+
   render() {
     return (
       <div>
         {this.renderHelpDialog()}
-        <div class="header">
-          <h1 style={{padding: '3px'}}>
+
+        {/* Sidebar/menu */}
+        <nav class="w3-sidebar w3-bar-block w3-white w3-animate-left w3-text-grey w3-collapse w3-top"
+          style={{zIndex: '3', width:'300px', fontWeight:'bold'}} id="mySidebar"><br/>
+          {/* <h1 style={{padding: '3px'}}>
             <sl-icon name="journal-check" style={{paddingRight: '5px'}}></sl-icon>
             Bookmark Application
-          </h1>
-        </div>
-        
-        <div class="row">
-          <div class="col-3 col-s-3 menu">
+          </h1> */}
+          <h3 class="w3-center" style={{padding: '5px'}}>Manage labels</h3>
+          <div style={{padding:'5px'}}>
             <tk-bookmark-label></tk-bookmark-label>
           </div>
-          <div class="col-9 col-s-9">
+        </nav>
+
+        <header class="w3-container w3-top w3-hide-large w3-white w3-xlarge w3-padding-16">
+          <span class="w3-left w3-padding">Bookmark Application</span>
+          <a href="javascript:void(0)" class="w3-right w3-button w3-white"
+            onClick={()=>this.toggleSideMenu(!this.sideMenuOpen)}>☰</a>
+        </header>
+
+        <div class="w3-overlay w3-hide-large w3-animate-opacity" 
+          onClick={()=>this.toggleSideMenu(false)}
+          style={{cursor:'pointer'}} title="close side menu" id="myOverlay"></div>
+
+        <div class="w3-main app-main" style={{marginLeft:'300px'}}> 
+          <div class="w3-hide-large" style={{marginTop:'83px'}}></div>
+          <div class="tk-bookmark-container" style={{padding: '5px'}}>
             <tk-bookmark></tk-bookmark>
           </div>
         </div>
