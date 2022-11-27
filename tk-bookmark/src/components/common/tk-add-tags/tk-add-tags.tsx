@@ -58,10 +58,11 @@ export class TkAddTags {
   }
 
   setTag(event, tagCaption) {
+    if(!event) {
+      console.log(`setTag() called without event`);
+    }
     let tagInput = document.querySelector('.tagInput') as HTMLInputElement;
     this.addTag(tagCaption);
-    //this.tags.push({caption: tagCaption});
-    //this.updateTags(this.tags);
     tagInput.value = '';
   }
 
