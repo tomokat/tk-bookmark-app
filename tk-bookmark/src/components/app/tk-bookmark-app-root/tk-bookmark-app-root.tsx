@@ -93,7 +93,7 @@ export class AppRoot {
         <sl-badge>b, s</sl-badge> = set focus on boomkark filter<br/>
         <sl-badge>l</sl-badge> = set focus on label filter<br/>
         <sl-divider></sl-divider>
-        <div>Version: {version} </div>
+        <div>Component version: {version} </div>
       </sl-dialog>
     );
   }

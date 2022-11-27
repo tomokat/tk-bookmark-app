@@ -27,7 +27,7 @@ export class TkLabelList {
     state.loadedLabel = false;
     let response = await fetch(`${state.bookmarkApi}/label`);
     let json = await response.json();
-    this.labelList = [...json.sort((a,b) => a.caption > b.caption ? 1: -1)];
+    this.labelList = [...json.sort((a,b) => a.caption.toLowerCase() > b.caption.toLowerCase() ? 1: -1)];
     state.labels = this.labelList;
     state.loadedLabel = true;
     return;
