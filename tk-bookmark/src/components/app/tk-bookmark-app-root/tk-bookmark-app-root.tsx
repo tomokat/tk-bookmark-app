@@ -3,7 +3,9 @@ import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
 //import state from '../../../stores/tk-bookmark-store';
 
-import { version } from '../../../../../package.json';
+import { version } from '../../../../package.json';
+import { version as backendVersion } from '../../../../../package.json';
+
 
 import hotkeys from 'hotkeys-js';
 
@@ -94,6 +96,7 @@ export class AppRoot {
         <sl-badge>l</sl-badge> = set focus on label filter<br/>
         <sl-divider></sl-divider>
         <div>Component version: {version} </div>
+        <div>Backend version: {backendVersion} </div>
       </sl-dialog>
     );
   }
