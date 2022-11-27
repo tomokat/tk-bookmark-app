@@ -121,6 +121,21 @@ export class AppRoot {
     }
   }
 
+  isMobileView() {
+    let headerElement = document.querySelector('header') as HTMLElement;
+    if(!headerElement) {
+      return false;
+    }
+    return headerElement.style.display !== 'none';
+  }
+
+  getTitle() {
+    if(this.isMobileView()) {
+      return 'Manage labels';
+    }
+    return 'Bookmark Application';
+  }
+
   render() {
     return (
       <div>
@@ -133,14 +148,14 @@ export class AppRoot {
             <sl-icon name="journal-check" style={{paddingRight: '5px'}}></sl-icon>
             Bookmark Application
           </h1> */}
-          <h3 class="w3-center" style={{padding: '5px'}}>Manage labels</h3>
+          <h3 class="w3-center" style={{padding: '5px'}}>{this.getTitle()}</h3>
           <div style={{padding:'5px'}}>
             <tk-bookmark-label></tk-bookmark-label>
           </div>
         </nav>
 
-        <header class="w3-container w3-top w3-hide-large w3-white w3-xlarge w3-padding-16">
-          <span class="w3-left w3-padding">Bookmark Application</span>
+        <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding-16">
+          <span class="w3-left w3-padding" style={{color:'white'}}>Bookmark Application</span>
           <a href="javascript:void(0)" class="w3-right w3-button w3-white"
             onClick={()=>this.toggleSideMenu(!this.sideMenuOpen)}>☰</a>
         </header>

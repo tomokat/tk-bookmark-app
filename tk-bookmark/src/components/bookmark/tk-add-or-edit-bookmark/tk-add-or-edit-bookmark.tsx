@@ -91,8 +91,8 @@ export class TkAddBookmark {
   renderActionBar() {
     if(this.forNewBookmark) {
       return (
-        <div>
-          <sl-button variant="primary"
+        <div style={{padding: '5px'}}>
+          <sl-button variant="primary" style={{padding: '5px'}}
             onClick={()=>this.addBookmarkData()}>Add</sl-button>
           <sl-button variant="default">Next</sl-button>
           <sl-button variant="text">Cancel</sl-button>
@@ -118,7 +118,7 @@ export class TkAddBookmark {
 
   render() {
     return (
-      <div>
+      <div style={{padding: '5px', backgroundColor: 'cornsilk'}}>
         <sl-input name="bookmarkTitle" placeholder="Title" value={this.requestObject.title}
           onBlur={(e)=>this.handleRequestObjectChange('title', e.target.value)}>  
         </sl-input>

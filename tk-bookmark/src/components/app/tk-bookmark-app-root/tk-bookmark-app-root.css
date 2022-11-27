@@ -61,6 +61,10 @@ body {
   max-height: calc(100vh - var(--footer-height));
 } */
 
+header {
+  background-color: #0069cc;
+}
+
 .app-main {
   max-height: calc(100vh - var(--footer-height));
   /*margin-bottom: 120px;*/
