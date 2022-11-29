@@ -34,9 +34,16 @@ export namespace Components {
     interface TkBookmarkListItem {
         "bookmark": any;
     }
+    interface TkBookmarkTable {
+        "staticTableData": any[];
+    }
     interface TkLabelList {
         "isEditMode": boolean;
         "reloadLabelList": () => Promise<void>;
+    }
+    interface TkTable {
+        "headers": any[];
+        "tableData": any[];
     }
 }
 export interface TkAddLabelCustomEvent<T> extends CustomEvent<T> {
@@ -132,11 +139,23 @@ declare global {
         prototype: HTMLTkBookmarkListItemElement;
         new (): HTMLTkBookmarkListItemElement;
     };
+    interface HTMLTkBookmarkTableElement extends Components.TkBookmarkTable, HTMLStencilElement {
+    }
+    var HTMLTkBookmarkTableElement: {
+        prototype: HTMLTkBookmarkTableElement;
+        new (): HTMLTkBookmarkTableElement;
+    };
     interface HTMLTkLabelListElement extends Components.TkLabelList, HTMLStencilElement {
     }
     var HTMLTkLabelListElement: {
         prototype: HTMLTkLabelListElement;
         new (): HTMLTkLabelListElement;
+    };
+    interface HTMLTkTableElement extends Components.TkTable, HTMLStencilElement {
+    }
+    var HTMLTkTableElement: {
+        prototype: HTMLTkTableElement;
+        new (): HTMLTkTableElement;
     };
     interface HTMLElementTagNameMap {
         "tk-add-label": HTMLTkAddLabelElement;
@@ -149,7 +168,9 @@ declare global {
         "tk-bookmark-label-bar": HTMLTkBookmarkLabelBarElement;
         "tk-bookmark-list": HTMLTkBookmarkListElement;
         "tk-bookmark-list-item": HTMLTkBookmarkListItemElement;
+        "tk-bookmark-table": HTMLTkBookmarkTableElement;
         "tk-label-list": HTMLTkLabelListElement;
+        "tk-table": HTMLTkTableElement;
     }
 }
 declare namespace LocalJSX {
@@ -188,11 +209,18 @@ declare namespace LocalJSX {
         "bookmark"?: any;
         "onRequestEditBookmark"?: (event: TkBookmarkListItemCustomEvent<any>) => void;
     }
+    interface TkBookmarkTable {
+        "staticTableData"?: any[];
+    }
     interface TkLabelList {
         "isEditMode"?: boolean;
         "onDeleteLabelSuccess"?: (event: TkLabelListCustomEvent<any>) => void;
         "onNotifyLabelSelection"?: (event: TkLabelListCustomEvent<any>) => void;
         "onUpdateLabelSuccess"?: (event: TkLabelListCustomEvent<any>) => void;
+    }
+    interface TkTable {
+        "headers"?: any[];
+        "tableData"?: any[];
     }
     interface IntrinsicElements {
         "tk-add-label": TkAddLabel;
@@ -205,7 +233,9 @@ declare namespace LocalJSX {
         "tk-bookmark-label-bar": TkBookmarkLabelBar;
         "tk-bookmark-list": TkBookmarkList;
         "tk-bookmark-list-item": TkBookmarkListItem;
+        "tk-bookmark-table": TkBookmarkTable;
         "tk-label-list": TkLabelList;
+        "tk-table": TkTable;
     }
 }
 export { LocalJSX as JSX };
@@ -222,7 +252,9 @@ declare module "@stencil/core" {
             "tk-bookmark-label-bar": LocalJSX.TkBookmarkLabelBar & JSXBase.HTMLAttributes<HTMLTkBookmarkLabelBarElement>;
             "tk-bookmark-list": LocalJSX.TkBookmarkList & JSXBase.HTMLAttributes<HTMLTkBookmarkListElement>;
             "tk-bookmark-list-item": LocalJSX.TkBookmarkListItem & JSXBase.HTMLAttributes<HTMLTkBookmarkListItemElement>;
+            "tk-bookmark-table": LocalJSX.TkBookmarkTable & JSXBase.HTMLAttributes<HTMLTkBookmarkTableElement>;
             "tk-label-list": LocalJSX.TkLabelList & JSXBase.HTMLAttributes<HTMLTkLabelListElement>;
+            "tk-table": LocalJSX.TkTable & JSXBase.HTMLAttributes<HTMLTkTableElement>;
         }
     }
 }

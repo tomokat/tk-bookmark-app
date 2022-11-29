@@ -25,6 +25,7 @@ graph TD;
   tk-bookmark --> tk-add-or-edit-bookmark
   tk-bookmark-list --> tk-add-or-edit-bookmark
   tk-bookmark-list --> tk-bookmark-list-item
+  tk-bookmark-list --> tk-table
   tk-add-or-edit-bookmark --> tk-add-tags
   tk-bookmark-app-root --> tk-bookmark
   style tk-bookmark fill:#f9f,stroke:#333,stroke-width:4px

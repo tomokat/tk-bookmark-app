@@ -18,6 +18,7 @@
 | Event                       | Description | Type               |
 | --------------------------- | ----------- | ------------------ |
 | `addBookmarkSuccess`        |             | `CustomEvent<any>` |
+| `closeAddBookmark`          |             | `CustomEvent<any>` |
 | `notifyUpdateRequestObject` |             | `CustomEvent<any>` |
 
 

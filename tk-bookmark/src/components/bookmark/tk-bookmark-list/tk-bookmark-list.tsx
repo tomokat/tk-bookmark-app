@@ -171,6 +171,14 @@ export class TkBookmarkList {
     this.filterBookmarkList();
   }
 
+  clearBookmarkFilter() {
+    let bookmarkFilterElemet = document.querySelector('.bookmarkListFilter') as HTMLInputElement;
+    bookmarkFilterElemet.value = '';
+    bookmarkFilterElemet.focus();
+    this.filterValue = '';
+    this.filterBookmarkList();
+  }
+
   renderEditBookmarkDialog() {
     return (
       <sl-dialog label="Edit bookmark" class="edit-bookmark-dialog">
@@ -190,19 +198,42 @@ export class TkBookmarkList {
       <sl-input class="bookmarkListFilter" size="medium" style={{paddingBottom: '5px'}}
         onKeyUp={(event)=> {this.updateFilterValue(event)}}>
         <sl-icon name="search" slot="prefix"></sl-icon>
-        <sl-badge slot="suffix" pill>{this.bookmarkList.length}/{state.bookmarks.length}</sl-badge>
+        <span slot="suffix">
+          <sl-button style={{margin: '5px'}}
+            onClick={()=>this.clearBookmarkFilter()}>Clear</sl-button>
+          <sl-badge  pill>{this.bookmarkList.length}/{state.bookmarks.length}</sl-badge>
+        </span>
       </sl-input>
     );
   }
+
+  renderCardOrList() {
+    return (
+      this.bookmarkList.map(bookmark =>
+        <tk-bookmark-list-item bookmark={bookmark}></tk-bookmark-list-item>
+      )
+    );
+  }
+
+  renderTable() {
+    return (
+      <tk-bookmark-table
+        staticTableData={this.bookmarkList}>
+      </tk-bookmark-table>
+    )
+  }
+
 
   renderEditMode() {
     return (
       <div>
       {this.renderEditBookmarkDialog()}
       {this.renderBookmarkFilter()}
-      { this.bookmarkList.map(bookmark =>
-        <tk-bookmark-list-item bookmark={bookmark}></tk-bookmark-list-item>
-      )}
+
+      { state.bookmarkDisplayType === 'Table'
+        ? this.renderTable()
+        : this.renderCardOrList()
+      }
       </div>
     );
   }

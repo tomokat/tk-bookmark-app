@@ -27,10 +27,16 @@ export class TkBookmarkListItem {
         </div>
         {this.renderBookmarkLabels()}
         {this.bookmark.notes}
+        <div style={{fontSize: '10px'}}>Last modified: {this.getDateString(this.bookmark.updatedAt)}</div>
+        <div style={{fontSize: '10px'}}>Created at: {this.getDateString(this.bookmark.createdAt)}</div>
       </sl-card>
     );
   }
   
+  getDateString(date) {
+    return new Date(date).toLocaleDateString('en-US');
+  }
+
   renderListView() {
     return (
       <div style={{padding: '3px'}}>
@@ -40,6 +46,7 @@ export class TkBookmarkListItem {
         <span>{this.bookmark.notes}</span>
         <sl-icon-button name="gear" label="Settings"
             onClick={()=>this.editBookmark()}></sl-icon-button>
+        <div style={{fontSize: '10px'}}>Last modified: {this.getDateString(this.bookmark.updatedAt)}, Created at: {this.getDateString(this.bookmark.createdAt)}</div>
         {this.renderBookmarkLabels()}
         <sl-divider style={{'--color': '#0069cc'}}></sl-divider>
       </div>
@@ -48,7 +55,9 @@ export class TkBookmarkListItem {
 
   renderTableView() {
     return (
-      <div>Table view</div>
+      <tr>
+        table row
+      </tr>
     )
   }
 

@@ -46,12 +46,14 @@ Type: `Promise<void>`
 
 - [tk-add-or-edit-bookmark](../tk-add-or-edit-bookmark)
 - [tk-bookmark-list-item](../tk-bookmark-list-item)
+- [tk-table](../../common/tk-table)
 
 ### Graph
 ```mermaid
 graph TD;
   tk-bookmark-list --> tk-add-or-edit-bookmark
   tk-bookmark-list --> tk-bookmark-list-item
+  tk-bookmark-list --> tk-table
   tk-add-or-edit-bookmark --> tk-add-tags
   tk-bookmark --> tk-bookmark-list
   style tk-bookmark-list fill:#f9f,stroke:#333,stroke-width:4px

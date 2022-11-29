@@ -148,7 +148,7 @@ export class TkAddBookmark {
   render() {
     console.log(`render() called w/ ${JSON.stringify(this.requestObject)}`);
     return (
-      <div style={{padding: '5px', backgroundColor: 'cornsilk'}}>
+      <div style={{padding: '10px', backgroundColor: 'cornsilk'}}>
         <sl-input class="bookmarkTitle" name="bookmarkTitle" placeholder="Title" value={this.requestObject.title}
           onBlur={(e)=>this.handleRequestObjectChange('title', e.target.value)}>  
         </sl-input>
