@@ -1,6 +1,5 @@
 import { Prop } from '@nestjs/mongoose';
 import { Component, h, State } from '@stencil/core';
-import { table } from 'console';
 
 @Component({
   tag: 'tk-bookmark-table',
