@@ -19,16 +19,24 @@ export class TkBookmarkTable {
 
   initializeHeaders() {
     this.headers = [
-      {field: 'title', title: 'Title', renderFunction: (tableRowData) => {
-        return this.customRenderTitle(tableRowData);
-      }},
-      {field: 'createdAt', title: 'Created', renderFunction: (tableRowData) => {
+      {field: 'title', title: 'Title',
+       filter: {placeholder: 'Search title'},
+       renderFunction: (tableRowData) => {
+         return this.customRenderTitle(tableRowData);
+       }
+      },
+      {field: 'createdAt', title: 'Created',
+       //filter: {placeholder: 'Search Created'},
+       renderFunction: (tableRowData) => {
         return this.customRenderDate(tableRowData['createdAt'])
       }},
-      {field: 'updatedAt', title: 'Modified', renderFunction: (tableRowData) => {
+      {field: 'updatedAt', title: 'Modified',
+       renderFunction: (tableRowData) => {
         return this.customRenderDate(tableRowData['updatedAt'])
       }},
-      {field: 'notes', title: 'Notes'}
+      {field: 'notes', title: 'Notes',
+       filter: {placeholder: 'Search Note'}
+      }
     ];
   }
 

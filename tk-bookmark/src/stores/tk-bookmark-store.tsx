@@ -9,7 +9,7 @@ function getBookmarkApiPerEnvironment() {
 
 const { state, onChange } = createStore({
   bookmarkApi: getBookmarkApiPerEnvironment(),
-  bookmarkDisplayType: 'Card',
+  bookmarkDisplayType: 'Table',
   bookmarks: [],
   labels: [],
   loadedLabel: false

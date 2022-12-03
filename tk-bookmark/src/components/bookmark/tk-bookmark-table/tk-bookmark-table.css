@@ -1,3 +1,7 @@
 :host {
   display: block;
 }
+
+:host(.createdAtColumn) {
+  width: 300px;
+}
