@@ -80,8 +80,15 @@ export class TkBookmarkList {
     this.bookmarkList = [...bookmarkList];
   }
 
+  getDataUrl() {
+    if(state.user.email) {
+      return `${state.bookmarkApi}/bookmark/user/${state.user.email}`;
+    }
+    return `${state.bookmarkApi}/bookmark/user/guest`;
+  }
+
   async getBookmarkData() {
-    let response = await fetch(`${state.bookmarkApi}/bookmark`);
+    let response = await fetch(this.getDataUrl());
     let json = await response.json();
     await this.appendLabelsForDisplay(json);
     state.bookmarks = this.bookmarkList;
@@ -100,7 +107,8 @@ export class TkBookmarkList {
       title: this.bookmarkInAction.title,
       url: this.bookmarkInAction.url,
       labels: labelIds,
-      notes: this.bookmarkInAction.notes
+      notes: this.bookmarkInAction.notes,
+      user: state.user.email
     };
     await fetch(`${state.bookmarkApi}/bookmark/${this.bookmarkInAction._id}`, {
       method: 'PATCH',

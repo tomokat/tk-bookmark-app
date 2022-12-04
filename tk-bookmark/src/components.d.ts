@@ -17,6 +17,8 @@ export namespace Components {
         "existingTags": any;
         "getTags": () => Promise<any[]>;
     }
+    interface TkAppSplash {
+    }
     interface TkBookmark {
     }
     interface TkBookmarkAppRoot {
@@ -58,6 +60,10 @@ export interface TkAddTagsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTkAddTagsElement;
 }
+export interface TkAppSplashCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTkAppSplashElement;
+}
 export interface TkBookmarkBarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTkBookmarkBarElement;
@@ -96,6 +102,12 @@ declare global {
     var HTMLTkAddTagsElement: {
         prototype: HTMLTkAddTagsElement;
         new (): HTMLTkAddTagsElement;
+    };
+    interface HTMLTkAppSplashElement extends Components.TkAppSplash, HTMLStencilElement {
+    }
+    var HTMLTkAppSplashElement: {
+        prototype: HTMLTkAppSplashElement;
+        new (): HTMLTkAppSplashElement;
     };
     interface HTMLTkBookmarkElement extends Components.TkBookmark, HTMLStencilElement {
     }
@@ -161,6 +173,7 @@ declare global {
         "tk-add-label": HTMLTkAddLabelElement;
         "tk-add-or-edit-bookmark": HTMLTkAddOrEditBookmarkElement;
         "tk-add-tags": HTMLTkAddTagsElement;
+        "tk-app-splash": HTMLTkAppSplashElement;
         "tk-bookmark": HTMLTkBookmarkElement;
         "tk-bookmark-app-root": HTMLTkBookmarkAppRootElement;
         "tk-bookmark-bar": HTMLTkBookmarkBarElement;
@@ -188,6 +201,9 @@ declare namespace LocalJSX {
         "currentTags"?: any;
         "existingTags"?: any;
         "onNotifyUpdateTags"?: (event: TkAddTagsCustomEvent<any>) => void;
+    }
+    interface TkAppSplash {
+        "onRequestLoginAsGuest"?: (event: TkAppSplashCustomEvent<any>) => void;
     }
     interface TkBookmark {
     }
@@ -226,6 +242,7 @@ declare namespace LocalJSX {
         "tk-add-label": TkAddLabel;
         "tk-add-or-edit-bookmark": TkAddOrEditBookmark;
         "tk-add-tags": TkAddTags;
+        "tk-app-splash": TkAppSplash;
         "tk-bookmark": TkBookmark;
         "tk-bookmark-app-root": TkBookmarkAppRoot;
         "tk-bookmark-bar": TkBookmarkBar;
@@ -245,6 +262,7 @@ declare module "@stencil/core" {
             "tk-add-label": LocalJSX.TkAddLabel & JSXBase.HTMLAttributes<HTMLTkAddLabelElement>;
             "tk-add-or-edit-bookmark": LocalJSX.TkAddOrEditBookmark & JSXBase.HTMLAttributes<HTMLTkAddOrEditBookmarkElement>;
             "tk-add-tags": LocalJSX.TkAddTags & JSXBase.HTMLAttributes<HTMLTkAddTagsElement>;
+            "tk-app-splash": LocalJSX.TkAppSplash & JSXBase.HTMLAttributes<HTMLTkAppSplashElement>;
             "tk-bookmark": LocalJSX.TkBookmark & JSXBase.HTMLAttributes<HTMLTkBookmarkElement>;
             "tk-bookmark-app-root": LocalJSX.TkBookmarkAppRoot & JSXBase.HTMLAttributes<HTMLTkBookmarkAppRootElement>;
             "tk-bookmark-bar": LocalJSX.TkBookmarkBar & JSXBase.HTMLAttributes<HTMLTkBookmarkBarElement>;

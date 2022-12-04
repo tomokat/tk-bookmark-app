@@ -9,12 +9,14 @@
 
 ### Depends on
 
+- [tk-app-splash](../../common/tk-app-splash)
 - [tk-bookmark-label](../../bookmark/tk-bookmark-label)
 - [tk-bookmark](../../bookmark/tk-bookmark)
 
 ### Graph
 ```mermaid
 graph TD;
+  tk-bookmark-app-root --> tk-app-splash
   tk-bookmark-app-root --> tk-bookmark-label
   tk-bookmark-app-root --> tk-bookmark
   tk-bookmark-label --> tk-bookmark-label-bar

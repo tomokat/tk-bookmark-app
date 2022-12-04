@@ -25,7 +25,10 @@ async function getLabelIdsFromExistingLabels(existingLabels) {
       newLabelIds.push(existingLabel._id);
     } else {
       console.log(`found new label: ${newLabel.caption}`);
-      let newLabelData = await createLabel({caption: newLabel.caption});
+      let newLabelData = await createLabel({
+        caption: newLabel.caption,
+        user: state.user.email
+      });
       console.log(`>>>> new label data: ${JSON.stringify(newLabelData)}`);
       newLabelIds.push(newLabelData._id);
     }

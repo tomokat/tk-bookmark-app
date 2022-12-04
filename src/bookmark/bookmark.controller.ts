@@ -14,9 +14,17 @@ export class BookmarkController {
 
   @Get()
   findAll() {
-    //console.log(`connected to ${process.env.dbConnect}`);
-    //console.log(`findAll() get called cwd: ${process.cwd()} : conn ${process.env.dbConnect}`);
     return this.bookmarkService.findAll();
+  }
+
+  @Get('/user/guest')
+  findAllForGuest() {
+    return this.bookmarkService.findAllByUser('');
+  }
+
+  @Get('/user/:user')
+  findByUser(@Param('user') user: string) {
+    return this.bookmarkService.findAllByUser(user);
   }
 
   @Get(':id')

@@ -1,18 +1,26 @@
 import { createStore } from '@stencil/store';
 
-function getBookmarkApiPerEnvironment() {
+function getBaseUrl() {
   if(location.hostname === 'localhost' && location.port === '3333') {
-    return 'http://localhost:3000/bookmark-api';
+    return 'http://localhost:3000/';
   }
-  return 'bookmark-api';
+  return '';
+}
+
+function getBookmarkApiPerEnvironment() {
+  return `${getBaseUrl()}bookmark-api`;
 }
 
 const { state, onChange } = createStore({
+  baseUrl: getBaseUrl(),
   bookmarkApi: getBookmarkApiPerEnvironment(),
   bookmarkDisplayType: 'Table',
   bookmarks: [],
   labels: [],
-  loadedLabel: false
+  loadedLabel: false,
+  user: {
+    email: ''
+  }
 });
 
 onChange('loadedLabel', value => {

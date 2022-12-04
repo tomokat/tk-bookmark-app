@@ -5,4 +5,5 @@ export const BookmarkSchema = new mongoose.Schema({
   url: String,
   notes: String,
   labels: { type: Array, "default": []},
+  user: String
 }, {timestamps: true});

@@ -21,6 +21,12 @@ export class LabelService {
     return this.labelModel.find().exec();
   }
 
+  findAllByUser(user: string) {
+    return this.labelModel.find().
+      where('user').equals(user).
+      exec();
+  }
+
   findOne(id: string) {
     return this.labelModel.findById(id);
   }

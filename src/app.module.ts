@@ -1,3 +1,4 @@
+import { GoogleStraetgy } from './security/google.strategy';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -25,6 +26,6 @@ import { LabelModule } from './label/label.module';
     MongooseModule.forRoot(process.env.dbConnect),
     BookmarkModule, LabelModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleStraetgy],
 })
 export class AppModule {}

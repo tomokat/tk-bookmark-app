@@ -20,6 +20,13 @@ export class BookmarkService {
     return this.bookmarkModel.find().exec();
   }
 
+  findAllByUser(user: string) {
+    console.log(`findAllByUser called for ${user}`);
+    return this.bookmarkModel.find().
+      where('user').equals(user).
+      exec();
+  }
+
   findOne(id: string) {
     console.log(`findOne (service) receive ${id}`);
     return this.bookmarkModel.findById(id);

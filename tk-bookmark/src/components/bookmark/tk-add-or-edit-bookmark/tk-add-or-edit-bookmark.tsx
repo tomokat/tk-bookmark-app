@@ -27,7 +27,8 @@ export class TkAddBookmark {
     this.requestObject = {
       title: '',
       url: '',
-      notes: ''
+      notes: '',
+      user: state.user.email
     };
     
     if(!this.forNewBookmark) {
@@ -85,7 +86,10 @@ export class TkAddBookmark {
         newLabelIds.push(existingLabel._id);
       } else {
         console.log(`found new label: ${newLabel.caption}`);
-        let newLabelData = await this.createLabel({caption: newLabel.caption});
+        let newLabelData = await this.createLabel({
+          caption: newLabel.caption,
+          user: state.user.email
+        });
         newLabelIds.push(newLabelData._id);
       }
     });

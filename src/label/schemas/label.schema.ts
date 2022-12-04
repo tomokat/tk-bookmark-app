@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 
 export const LabelSchema = new mongoose.Schema({
-  caption: String
+  caption: String,
+  user: String,
 }, {timestamps: true});

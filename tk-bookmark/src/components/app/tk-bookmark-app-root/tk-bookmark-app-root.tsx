@@ -1,13 +1,13 @@
 import { Component, h, Listen, State } from '@stencil/core';
 import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
-//import state from '../../../stores/tk-bookmark-store';
-
 import { version } from '../../../../package.json';
 import { version as backendVersion } from '../../../../../package.json';
 
-
 import hotkeys from 'hotkeys-js';
+
+import { AppLogin } from '../../../functional/app-login-functional';
+import state from '../../../stores/tk-bookmark-store';
 
 @Component({
   tag: 'tk-bookmark-app-root',
@@ -17,6 +17,35 @@ import hotkeys from 'hotkeys-js';
 export class AppRoot {
 
   @State() sideMenuOpen = false;
+  @State() authenticated;
+
+  componentDidLoad() {
+    this.checkAuth();
+  }
+
+  async checkAuth() {
+    await fetch(`/auth/validate`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(async res => {
+      let result = await res.json();
+      if(result.email) {
+        state.user.email = result.email;
+        this.authenticated = true;
+      } else {
+        this.authenticated = false;
+      }
+    }).catch(error => {
+      console.log(`auth check failed with ${JSON.stringify(error)}`);
+      this.authenticated = false;
+    });
+  }
+
+  @Listen('requestLoginAsGuest')
+  async handleRequestLoginAsGuest() {
+    state.user.email = '';
+    this.authenticated = true;
+  }
 
   @Listen('notifyLabelSelection')
   async notifyLabelSelectionHanlder(event) {
@@ -103,10 +132,6 @@ export class AppRoot {
     );
   }
 
-  void() {
-
-  }
-
   toggleSideMenu(show) {
     this.sideMenuOpen = show;
 
@@ -137,17 +162,23 @@ export class AppRoot {
   }
 
   render() {
+    if(typeof this.authenticated === 'undefined') {
+      return;
+    }
+
+    if(!this.authenticated) {
+      return (
+        <tk-app-splash></tk-app-splash>
+      );
+    }
+
     return (
-      <div>
+      <AppLogin condition={this.authenticated}>
         {this.renderHelpDialog()}
 
         {/* Sidebar/menu */}
         <nav class="w3-sidebar w3-bar-block w3-white w3-animate-left w3-text-grey w3-collapse w3-top"
           style={{zIndex: '3', width:'300px', fontWeight:'bold'}} id="mySidebar"><br/>
-          {/* <h1 style={{padding: '3px'}}>
-            <sl-icon name="journal-check" style={{paddingRight: '5px'}}></sl-icon>
-            Bookmark Application
-          </h1> */}
           <h3 class="w3-center" style={{padding: '5px'}}>{this.getTitle()}</h3>
           <div style={{padding:'5px'}}>
             <tk-bookmark-label></tk-bookmark-label>
@@ -174,7 +205,7 @@ export class AppRoot {
         <div class="footer">
           <p>Made with Stencil JS, Nest JS, Mongoose and MongoDB</p>
         </div>
-      </div>
+      </AppLogin>
     );
   }
 

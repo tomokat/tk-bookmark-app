@@ -23,9 +23,16 @@ export class TkLabelList {
     this.getLabelData();
   }
 
+  getDataUrl() {
+    if(state.user.email) {
+      return `${state.bookmarkApi}/label/user/${state.user.email}`;
+    }
+    return `${state.bookmarkApi}/label/user/guest`;
+  }
+
   async getLabelData() {
     state.loadedLabel = false;
-    let response = await fetch(`${state.bookmarkApi}/label`);
+    let response = await fetch(this.getDataUrl());
     let json = await response.json();
     this.labelList = [...json.sort((a,b) => a.caption.toLowerCase() > b.caption.toLowerCase() ? 1: -1)];
     state.labels = this.labelList;
@@ -45,7 +52,10 @@ export class TkLabelList {
   }
 
   async updateLabel(event, label) {
-    let updateData = { caption: event.target.value };
+    let updateData = { 
+      caption: event.target.value,
+      user: state.user.email
+    };
     await fetch(`${state.bookmarkApi}/label/${label._id}`, {
       method: 'PATCH',
       headers: {

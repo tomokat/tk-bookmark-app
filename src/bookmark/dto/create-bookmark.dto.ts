@@ -5,4 +5,5 @@ export class CreateBookmarkDto {
   readonly url: String;
   readonly notes: String;
   readonly labels: Types.Array<number>;
+  readonly user: String;
 }

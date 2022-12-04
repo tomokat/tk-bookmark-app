@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LabelService } from './label.service';
 import { CreateLabelDto } from './dto/create-label.dto';
 import { UpdateLabelDto } from './dto/update-label.dto';
+import { userInfo } from 'os';
 
 @Controller('bookmark-api/label')
 export class LabelController {
@@ -15,6 +16,16 @@ export class LabelController {
   @Get()
   findAll() {
     return this.labelService.findAll();
+  }
+
+  @Get('/user/guest')
+  findAllForGuest() {
+    return this.labelService.findAllByUser('');
+  }
+
+  @Get('/user/:user')
+  findAllByUser(@Param('user') user: string) {
+    return this.labelService.findAllByUser(user);
   }
 
   @Get(':id')

@@ -47,7 +47,10 @@ export class TkAddLabel {
 
   addLabel(newLabel) {
     if(newLabel && newLabel.trim() !== '') {
-      let requestData = { 'caption': newLabel };
+      let requestData = {
+        caption: newLabel,
+        user: state.user.email
+      };
       fetch(`${state.bookmarkApi}/label`, {
         method: 'POST',
         headers: {
