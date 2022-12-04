@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.loginAsGuestLink {
+  cursor: pointer;
+  color:blue;
+  text-decoration:underline;
+}
