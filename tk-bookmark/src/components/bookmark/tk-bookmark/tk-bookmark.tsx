@@ -1,4 +1,5 @@
 import { Component, h, Listen, State } from '@stencil/core';
+import state from '../../../stores/tk-bookmark-store';
 
 @Component({
   tag: 'tk-bookmark',
@@ -51,7 +52,7 @@ export class TkBookmark {
     return (
       <div>
         <tk-bookmark-bar></tk-bookmark-bar>
-        <tk-add-or-edit-bookmark forNewBookmark={true}></tk-add-or-edit-bookmark>
+        <tk-add-or-edit-bookmark hideNextButton={true} forNewBookmark={true} existingTags={state.labels}></tk-add-or-edit-bookmark>
         <tk-bookmark-list></tk-bookmark-list>
       </div>
     )

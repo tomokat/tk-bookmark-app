@@ -190,7 +190,7 @@ export class TkBookmarkList {
   renderEditBookmarkDialog() {
     return (
       <sl-dialog label="Edit bookmark" class="edit-bookmark-dialog">
-        <tk-add-or-edit-bookmark bookmark={this.bookmarkInAction}></tk-add-or-edit-bookmark>
+        <tk-add-or-edit-bookmark bookmark={this.bookmarkInAction} existingTags={state.labels}></tk-add-or-edit-bookmark>
         <sl-button slot="footer" variant="primary"
           onClick={()=>this.updateBookmarkData()}>Update</sl-button>
         <sl-button slot="footer" variant="danger"

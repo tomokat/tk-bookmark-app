@@ -10,7 +10,10 @@ export namespace Components {
     }
     interface TkAddOrEditBookmark {
         "bookmark": any;
+        "existingTags": any;
         "forNewBookmark": boolean;
+        "hideNextButton": boolean;
+        "overrideState": any;
     }
     interface TkAddTags {
         "currentTags": any;
@@ -192,10 +195,13 @@ declare namespace LocalJSX {
     }
     interface TkAddOrEditBookmark {
         "bookmark"?: any;
+        "existingTags"?: any;
         "forNewBookmark"?: boolean;
+        "hideNextButton"?: boolean;
         "onAddBookmarkSuccess"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
         "onCloseAddBookmark"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
         "onNotifyUpdateRequestObject"?: (event: TkAddOrEditBookmarkCustomEvent<any>) => void;
+        "overrideState"?: any;
     }
     interface TkAddTags {
         "currentTags"?: any;

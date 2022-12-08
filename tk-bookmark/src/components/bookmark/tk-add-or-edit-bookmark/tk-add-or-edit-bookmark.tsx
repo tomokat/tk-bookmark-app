@@ -8,14 +8,17 @@ import { getLabelIdsFromExistingLabels } from '../../../utils/tk-bookmark-app-ut
   tag: 'tk-add-or-edit-bookmark',
   shadow: false,
 })
-export class TkAddBookmark {
+export class TkAddOrEditBookmark {
 
   @Event() addBookmarkSuccess: EventEmitter;
   @Event() closeAddBookmark: EventEmitter;
   @Event() notifyUpdateRequestObject: EventEmitter;
 
   @Prop() forNewBookmark: boolean;
+  @Prop() hideNextButton: boolean;
   @Prop() bookmark;
+  @Prop() existingTags;
+  @Prop() overrideState;
 
   @State() requestObject;
 
@@ -24,6 +27,11 @@ export class TkAddBookmark {
   }
 
   async initialize() {
+    if(this.overrideState) {
+      state.baseUrl = this.overrideState.baseUrl;
+      state.bookmarkApi = this.overrideState.bookmarkApi;
+    }
+
     this.requestObject = {
       title: '',
       url: '',
@@ -31,7 +39,7 @@ export class TkAddBookmark {
       user: state.user.email
     };
     
-    if(!this.forNewBookmark) {
+    if(this.bookmark && this.bookmark.title && this.bookmark.url) {
       this.requestObject = {...this.bookmark};
     }
   }
@@ -119,13 +127,20 @@ export class TkAddBookmark {
     this.closeAddBookmark.emit();
   }
 
+  getStyleForNextButton() {
+    if(this.hideNextButton) {
+      return {display: 'none'};
+    }
+    return {display: 'block'};
+  }
+
   renderActionBar() {
     if(this.forNewBookmark) {
       return (
         <div style={{padding: '5px'}}>
           <sl-button variant="primary" style={{padding: '5px'}}
             onClick={()=>this.addBookmarkData(false)}>Add</sl-button>
-          <sl-button variant="default"
+          <sl-button variant="default" style={this.getStyleForNextButton()}
             onClick={()=>this.addBookmarkData(true)}>Next</sl-button>
           <sl-button variant="text"
             onClick={()=>this.cancelAdd()}>Cancel</sl-button>
@@ -159,12 +174,13 @@ export class TkAddBookmark {
         <sl-input class="bookmarkUrl" name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
           onBlur={(e)=>this.handleRequestObjectChange('url', e.target.value)}>  
         </sl-input>
-        <tk-add-tags currentTags={this.convertToCurrentTags()} existingTags={state.labels}></tk-add-tags>
+        <tk-add-tags currentTags={this.convertToCurrentTags()} existingTags={this.existingTags}></tk-add-tags>
         <sl-textarea class="bookmarkNotes" name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
           onBlur={(e)=>this.handleRequestObjectChange('notes', e.target.value)}></sl-textarea>
 
         {console.log(`tk-add-or-edit-bookmark passing ${JSON.stringify(this.requestObject)}`)}
-        
+        {console.log(`tk-add-or-edit-bookmark passed tags: ${JSON.stringify(this.existingTags)}`)}
+
         {this.renderActionBar()}
       </div>
     );

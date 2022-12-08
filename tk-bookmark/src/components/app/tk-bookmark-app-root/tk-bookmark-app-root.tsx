@@ -1,8 +1,8 @@
 import { Component, h, Listen, State } from '@stencil/core';
 import { SlDialog, SlInput } from '@shoelace-style/shoelace';
 
-import { version } from '../../../../package.json';
-import { version as backendVersion } from '../../../../../package.json';
+//import { version } from '../../../../package.json';
+//import { version as backendVersion } from '../../../../../package.json';
 
 import hotkeys from 'hotkeys-js';
 
@@ -126,8 +126,8 @@ export class AppRoot {
         <sl-badge>b, s</sl-badge> = set focus on boomkark filter<br/>
         <sl-badge>l</sl-badge> = set focus on label filter<br/>
         <sl-divider></sl-divider>
-        <div>Component version: {version} </div>
-        <div>Backend version: {backendVersion} </div>
+        {/* <div>Component version: {version} </div> */}
+        {/* <div>Backend version: {backendVersion} </div> */}
       </sl-dialog>
     );
   }
@@ -203,7 +203,7 @@ export class AppRoot {
         </div>
 
         <div class="footer">
-          <p>Made with Stencil JS, Nest JS, Mongoose and MongoDB</p>
+          <p>Made with Shoelace, Stencil JS, Nest JS, Mongoose and MongoDB</p>
         </div>
       </AppLogin>
     );

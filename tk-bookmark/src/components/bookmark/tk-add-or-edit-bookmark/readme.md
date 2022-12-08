@@ -10,7 +10,10 @@
 | Property         | Attribute          | Description | Type      | Default     |
 | ---------------- | ------------------ | ----------- | --------- | ----------- |
 | `bookmark`       | `bookmark`         |             | `any`     | `undefined` |
+| `existingTags`   | `existing-tags`    |             | `any`     | `undefined` |
 | `forNewBookmark` | `for-new-bookmark` |             | `boolean` | `undefined` |
+| `hideNextButton` | `hide-next-button` |             | `boolean` | `undefined` |
+| `overrideState`  | `override-state`   |             | `any`     | `undefined` |
 
 
 ## Events

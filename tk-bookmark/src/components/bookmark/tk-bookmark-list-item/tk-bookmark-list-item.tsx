@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Prop } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Listen, Prop, State } from '@stencil/core';
 import state from '../../../stores/tk-bookmark-store';
 
 @Component({
@@ -11,13 +11,40 @@ export class TkBookmarkListItem {
 
   @Prop() bookmark;
 
+  @State() cardWidth = this.getCardWidth();
+
+  @Listen('resize', {target: 'window'})
+  handleResizeWindow () {
+    let newCardWidth = this.getCardWidth();
+
+    console.log(`catch window.resize event NEW: ${newCardWidth} vs ${this.cardWidth}`);
+
+    if(newCardWidth != this.cardWidth) {
+      this.cardWidth = newCardWidth;
+      console.log(`updated card width to ${this.cardWidth}`);
+    }
+  }
+
   editBookmark() {
     this.requestEditBookmark.emit(this.bookmark);
   }
 
+  getCardWidth() {
+    if(window) {
+      let screenWidth = window.innerWidth;
+      if(screenWidth > 1200) {
+        return '33%';
+      } else if(screenWidth > 900) {
+        return '50%';
+      }
+    }
+    return '100%';
+  }
+
   renderCardView() {
+    console.log(`render card view`);
     return (
-      <sl-card class="card-header">
+      <sl-card class="card-header" style={{width: this.cardWidth}}>
         <div slot="header">
           <a href={this.bookmark.url} title={this.bookmark.title} target="_blank">
             {this.bookmark.title}
