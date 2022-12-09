@@ -1,6 +1,7 @@
 
 * {
   --footer-height: 50px;
+  --footer-height-buffer: 20px;
   box-sizing: border-box;
 }
 
@@ -66,17 +67,17 @@ header {
 }
 
 .app-main {
-  max-height: calc(100vh - var(--footer-height));
+  max-height: calc(100vh - var(--footer-height) - var(--footer-height-buffer));
   /*margin-bottom: 120px;*/
 }
 
 .app-main .tk-bookmark-container {
-  max-height: calc(100vh - var(--footer-height));
+  max-height: calc(100vh - var(--footer-height) - var(--footer-height-buffer));
   overflow: auto;
 }
 
 nav.w3-sidebar {
-  max-height: calc(100vh - var(--footer-height));
+  max-height: calc(100vh - var(--footer-height) - var(--footer-height-buffer));
 }
 
 .footer {

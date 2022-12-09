@@ -16,8 +16,6 @@ export class TkAddTags {
   @Prop() currentTags;
 
   @State() tags = [];
-
-  enteredLabelValue;
   @State() matchedTags = [];
 
   @Method()
@@ -26,23 +24,19 @@ export class TkAddTags {
   }
 
   @Watch('currentTags')
-  currentTagsHandler () {
-    //console.log(`currentTags has been updated`);
-    if(this.currentTags) {
-      this.tags = [...this.currentTags];
-    } else {
-      //console.log(`currentTags is empty?!`);
+  currentTagsHandler (newValue, oldValue) {
+    if(oldValue.length !== newValue.length) {
+      this.tags = [...newValue];
+      console.log(`currentTags has been updated`);
     }
-  }
-
-  componentWillLoad() {
-    
   }
 
   convertValueToTags(event, value) {
     if(this.matchedTags.length > 0) {
       return;
     }
+
+    console.log(`convertValueToTags() called with ${value}`);
 
     //let value = event.target.value;
     if(value && value.trim()) {
@@ -72,6 +66,8 @@ export class TkAddTags {
   }
 
   addTag(tagCaption) {
+    console.log(`addTag called with ${tagCaption}`);
+
     let targetTag = this.currentTags.find(currentTag => {
       return currentTag.caption === tagCaption
     });
@@ -81,6 +77,7 @@ export class TkAddTags {
     }
 
     this.tags.push({caption: tagCaption});
+    console.log(`about to call updateTags with ${JSON.stringify(this.tags)}`);
     this.updateTags(this.tags);
   }
 
@@ -128,6 +125,8 @@ export class TkAddTags {
   } 
 
   renderTags() {
+    console.log(`renderTags() called with ${JSON.stringify(this.tags)}`);
+
     return (
       this.tags.map(tag =>
         <sl-tag style={{padding: '5px'}} variant={this.getTagVariant(tag)} size="medium" removable

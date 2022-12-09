@@ -22,6 +22,8 @@ export class TkAddOrEditBookmark {
 
   @State() requestObject;
 
+  currentTags;
+
   componentWillRender() {
     this.initialize();
   }
@@ -42,6 +44,8 @@ export class TkAddOrEditBookmark {
     if(this.bookmark && this.bookmark.title && this.bookmark.url) {
       this.requestObject = {...this.bookmark};
     }
+
+    this.currentTags = this.convertToCurrentTags();
   }
 
   handleRequestObjectChange(key, value) {
@@ -165,7 +169,7 @@ export class TkAddOrEditBookmark {
   }
 
   render() {
-    console.log(`render() called w/ ${JSON.stringify(this.requestObject)}`);
+    // console.log(`render() called w/ ${JSON.stringify(this.requestObject)}`);
     return (
       <div style={{padding: '10px', backgroundColor: 'cornsilk'}}>
         <sl-input class="bookmarkTitle" name="bookmarkTitle" placeholder="Title" value={this.requestObject.title}
@@ -174,12 +178,12 @@ export class TkAddOrEditBookmark {
         <sl-input class="bookmarkUrl" name="bookmarkUrl" placeholder="URL" value={this.requestObject.url}
           onBlur={(e)=>this.handleRequestObjectChange('url', e.target.value)}>  
         </sl-input>
-        <tk-add-tags currentTags={this.convertToCurrentTags()} existingTags={this.existingTags}></tk-add-tags>
+        <tk-add-tags currentTags={this.currentTags} existingTags={this.existingTags}></tk-add-tags>
         <sl-textarea class="bookmarkNotes" name="bookmarkNotes" label="Notes" value={this.requestObject.notes}
           onBlur={(e)=>this.handleRequestObjectChange('notes', e.target.value)}></sl-textarea>
 
-        {console.log(`tk-add-or-edit-bookmark passing ${JSON.stringify(this.requestObject)}`)}
-        {console.log(`tk-add-or-edit-bookmark passed tags: ${JSON.stringify(this.existingTags)}`)}
+        {/* {console.log(`tk-add-or-edit-bookmark passing ${JSON.stringify(this.requestObject)}`)} */}
+        {console.log(`tk-add-or-edit-bookmark render() currentTags: ${JSON.stringify(this.currentTags)}`)}
 
         {this.renderActionBar()}
       </div>

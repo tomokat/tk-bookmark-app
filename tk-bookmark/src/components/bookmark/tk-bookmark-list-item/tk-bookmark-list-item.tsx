@@ -42,7 +42,7 @@ export class TkBookmarkListItem {
   }
 
   renderCardView() {
-    console.log(`render card view`);
+    //console.log(`render card view`);
     return (
       <sl-card class="card-header" style={{width: this.cardWidth}}>
         <div slot="header">
