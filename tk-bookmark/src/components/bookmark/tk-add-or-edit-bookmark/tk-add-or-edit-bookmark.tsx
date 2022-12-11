@@ -40,6 +40,7 @@ export class TkAddOrEditBookmark {
     if(this.overrideState) {
       state.baseUrl = this.overrideState.baseUrl;
       state.bookmarkApi = this.overrideState.bookmarkApi;
+      state.user = this.overrideState.user;
     }
     this.requestObject.user = state.user.email;
 
