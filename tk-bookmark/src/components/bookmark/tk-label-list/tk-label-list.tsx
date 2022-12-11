@@ -3,6 +3,7 @@ import state from '../../../stores/tk-bookmark-store';
 
 @Component({
   tag: 'tk-label-list',
+  styleUrl: 'tk-label-list.css',
   shadow: false,
 })
 export class TkLabelList {
@@ -16,6 +17,17 @@ export class TkLabelList {
 
   componentWillLoad() {
     this.getLabelData();
+  }
+
+  @Method()
+  async getLabelList() {
+    return this.labelList;
+  }
+
+  @Method()
+  async setLabels(labels) {
+    console.log(`updating labels to ${JSON.stringify(labels)}`);
+    this.labelList = [...labels];
   }
 
   @Method()
@@ -96,13 +108,25 @@ export class TkLabelList {
     );
   }
 
+  // getClassForLabel(label) {
+  //   if(label.selected) {
+  //     return 'selected-label-item';
+  //   }
+  //   return '';
+  // }
+
   renderNormal() {
+    //console.log(`>>>>>>>>renderNormal() called`);
     return (
       <div>
         {this.renderLabelFilter()}
         <sl-menu>
           {this.labelList.map(label =>
-            <sl-menu-item onClick={(event) => this.toggleLabelSelection(event, label)}>
+            <sl-menu-item
+              style={{border: '3px'}}
+              // class={this.getClassForLabel(label)}
+              checked={label.selected? true: false}
+              onClick={(event) => this.toggleLabelSelection(event, label)}>
               {label.caption}
             </sl-menu-item>
           )}

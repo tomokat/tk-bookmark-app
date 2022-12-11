@@ -1,0 +1,3 @@
+.selected-label-item::part(base) {
+  background: red;
+}

@@ -47,6 +47,32 @@ export class AppRoot {
     this.authenticated = true;
   }
 
+  @Listen('notifyToggleLabel')
+  async notifyToggleLabelHandler(event) {
+    let selectionModifiedLabel = event.detail;
+
+    await customElements.whenDefined('tk-label-list');
+    let labelListElement = document.querySelector('tk-label-list');
+    let labels = await labelListElement.getLabelList();
+
+    let filterLabels = [];
+    labels.map(label=> {
+      if(label.caption === selectionModifiedLabel) {
+        label.selected = !label.selected;
+      }
+
+      if(label.selected) {
+        filterLabels.push(label.caption);
+      }
+    });
+
+    labelListElement.setLabels(labels);
+
+    await customElements.whenDefined('tk-bookmark-list');
+    let bookmarkListElement = document.querySelector('tk-bookmark-list');
+    bookmarkListElement.setLabelFilterList(filterLabels);
+  }
+
   @Listen('notifyLabelSelection')
   async notifyLabelSelectionHanlder(event) {
     let labels = event.detail;

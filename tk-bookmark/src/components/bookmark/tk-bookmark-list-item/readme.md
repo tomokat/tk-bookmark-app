@@ -16,6 +16,7 @@
 
 | Event                 | Description | Type               |
 | --------------------- | ----------- | ------------------ |
+| `notifyToggleLabel`   |             | `CustomEvent<any>` |
 | `requestEditBookmark` |             | `CustomEvent<any>` |
 
 

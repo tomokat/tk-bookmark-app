@@ -157,6 +157,13 @@ export class TkBookmarkList {
     return result;
   }
 
+  filterAgainst(bookmark, field, filterValue) {
+    if(bookmark) {
+      return bookmark[field] && bookmark[field].toLowerCase().includes(filterValue.toLowerCase());
+    }
+    return false;
+  }
+
   filterBookmarkList() {
     //console.log(`bookmark fiter: ${filterValue}`);
     this.bookmarkList = state.bookmarks;
@@ -167,8 +174,8 @@ export class TkBookmarkList {
 
     if(this.filterValue && this.filterValue.trim()) {
       let filterList = this.bookmarkList.filter(bookmark=> {
-        return (bookmark.title.toLowerCase().includes(this.filterValue.toLowerCase()) ||
-          bookmark.notes.toLowerCase().includes(this.filterValue.toLowerCase()));
+        return (this.filterAgainst(bookmark, 'title', this.filterValue) ||
+        (this.filterAgainst(bookmark, 'notes', this.filterValue)))
       });
       this.bookmarkList = [...filterList];
     }

@@ -45,8 +45,10 @@ export namespace Components {
         "staticTableData": any[];
     }
     interface TkLabelList {
+        "getLabelList": () => Promise<any[]>;
         "isEditMode": boolean;
         "reloadLabelList": () => Promise<void>;
+        "setLabels": (labels: any) => Promise<void>;
     }
     interface TkTable {
         "headers": any[];
@@ -232,6 +234,7 @@ declare namespace LocalJSX {
     }
     interface TkBookmarkListItem {
         "bookmark"?: any;
+        "onNotifyToggleLabel"?: (event: TkBookmarkListItemCustomEvent<any>) => void;
         "onRequestEditBookmark"?: (event: TkBookmarkListItemCustomEvent<any>) => void;
     }
     interface TkBookmarkTable {

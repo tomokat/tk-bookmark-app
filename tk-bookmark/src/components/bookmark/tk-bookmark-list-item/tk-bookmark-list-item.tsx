@@ -8,6 +8,7 @@ import state from '../../../stores/tk-bookmark-store';
 export class TkBookmarkListItem {
 
   @Event() requestEditBookmark: EventEmitter;
+  @Event() notifyToggleLabel: EventEmitter;
 
   @Prop() bookmark;
 
@@ -88,11 +89,16 @@ export class TkBookmarkListItem {
     )
   }
 
+  toggleLabel(label) {
+    console.log(`toggle ${JSON.stringify(label)}`);
+    this.notifyToggleLabel.emit(label);
+  }
+
   renderBookmarkLabels() {
     return (
       <div>
         {this.bookmark.labelsForDisplay.map(label=>
-          <sl-badge>{label}</sl-badge>
+          <sl-badge onClick={()=>this.toggleLabel(label)}>{label}</sl-badge>
         )}
       </div>
     );

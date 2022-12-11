@@ -23,7 +23,27 @@
 
 ## Methods
 
+### `getLabelList() => Promise<any[]>`
+
+
+
+#### Returns
+
+Type: `Promise<any[]>`
+
+
+
 ### `reloadLabelList() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `setLabels(labels: any) => Promise<void>`
 
 
 
