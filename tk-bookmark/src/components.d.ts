@@ -16,8 +16,10 @@ export namespace Components {
         "overrideState": any;
     }
     interface TkAddTags {
-        "currentTags": any;
+        "clearTags": () => Promise<void>;
+        "currentTags": any[];
         "existingTags": any;
+        "generatedTags": any[];
         "getTags": () => Promise<any[]>;
     }
     interface TkAppSplash {
@@ -204,8 +206,9 @@ declare namespace LocalJSX {
         "overrideState"?: any;
     }
     interface TkAddTags {
-        "currentTags"?: any;
+        "currentTags"?: any[];
         "existingTags"?: any;
+        "generatedTags"?: any[];
         "onNotifyUpdateTags"?: (event: TkAddTagsCustomEvent<any>) => void;
     }
     interface TkAppSplash {

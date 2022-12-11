@@ -17,11 +17,11 @@ export class TkBookmarkListItem {
   handleResizeWindow () {
     let newCardWidth = this.getCardWidth();
 
-    console.log(`catch window.resize event NEW: ${newCardWidth} vs ${this.cardWidth}`);
+    //console.log(`catch window.resize event NEW: ${newCardWidth} vs ${this.cardWidth}`);
 
     if(newCardWidth != this.cardWidth) {
       this.cardWidth = newCardWidth;
-      console.log(`updated card width to ${this.cardWidth}`);
+      //console.log(`updated card width to ${this.cardWidth}`);
     }
   }
 

@@ -52,7 +52,7 @@ export class TkBookmark {
     return (
       <div>
         <tk-bookmark-bar></tk-bookmark-bar>
-        <tk-add-or-edit-bookmark hideNextButton={true} forNewBookmark={true} existingTags={state.labels}></tk-add-or-edit-bookmark>
+        <tk-add-or-edit-bookmark forNewBookmark={true} existingTags={state.labels}></tk-add-or-edit-bookmark>
         <tk-bookmark-list></tk-bookmark-list>
       </div>
     )

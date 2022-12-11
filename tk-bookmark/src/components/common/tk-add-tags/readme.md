@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property       | Attribute       | Description | Type  | Default     |
-| -------------- | --------------- | ----------- | ----- | ----------- |
-| `currentTags`  | `current-tags`  |             | `any` | `undefined` |
-| `existingTags` | `existing-tags` |             | `any` | `undefined` |
+| Property        | Attribute       | Description | Type    | Default     |
+| --------------- | --------------- | ----------- | ------- | ----------- |
+| `currentTags`   | --              |             | `any[]` | `[]`        |
+| `existingTags`  | `existing-tags` |             | `any`   | `undefined` |
+| `generatedTags` | --              |             | `any[]` | `[]`        |
 
 
 ## Events
@@ -21,6 +22,16 @@
 
 
 ## Methods
+
+### `clearTags() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 ### `getTags() => Promise<any[]>`
 
