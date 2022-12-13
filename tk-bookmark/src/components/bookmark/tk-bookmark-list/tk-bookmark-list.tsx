@@ -208,6 +208,17 @@ export class TkBookmarkList {
     );
   }
 
+  renderLabelFilterList() {
+    if(!this.labelFilterList) {
+      return;
+    }
+    return (
+      this.labelFilterList.map(labelFilter =>
+        <sl-badge variant="warning" pill>{labelFilter}</sl-badge>
+      )
+    )
+  }
+
   renderBookmarkFilter() {
     return (
       <sl-input class="bookmarkListFilter" size="medium" style={{paddingBottom: '5px'}}
@@ -225,7 +236,7 @@ export class TkBookmarkList {
   renderCardOrList() {
     return (
       this.bookmarkList.map(bookmark =>
-        <tk-bookmark-list-item bookmark={bookmark}></tk-bookmark-list-item>
+        <tk-bookmark-list-item bookmark={bookmark} labelFilterList={this.labelFilterList}></tk-bookmark-list-item>
       )
     );
   }
@@ -243,6 +254,7 @@ export class TkBookmarkList {
     return (
       <div>
       {this.renderEditBookmarkDialog()}
+      {this.renderLabelFilterList()}
       {this.renderBookmarkFilter()}
 
       { state.bookmarkDisplayType === 'Table'

@@ -11,6 +11,7 @@ export class TkBookmarkListItem {
   @Event() notifyToggleLabel: EventEmitter;
 
   @Prop() bookmark;
+  @Prop() labelFilterList = [];
 
   @State() cardWidth = this.getCardWidth();
 
@@ -94,11 +95,20 @@ export class TkBookmarkListItem {
     this.notifyToggleLabel.emit(label);
   }
 
+  getVariantForLabel(label) {
+    let filteredLabel = this.labelFilterList.includes(label);
+    if(filteredLabel) {
+      return 'warning';
+    }
+    return 'primary'
+  }
+
   renderBookmarkLabels() {
     return (
       <div>
         {this.bookmark.labelsForDisplay.map(label=>
-          <sl-badge onClick={()=>this.toggleLabel(label)}>{label}</sl-badge>
+          <sl-badge variant={this.getVariantForLabel(label)}
+            onClick={()=>this.toggleLabel(label)} pill>{label}</sl-badge>
         )}
       </div>
     );

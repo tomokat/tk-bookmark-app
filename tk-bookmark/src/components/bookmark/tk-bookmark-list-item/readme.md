@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type  | Default     |
-| ---------- | ---------- | ----------- | ----- | ----------- |
-| `bookmark` | `bookmark` |             | `any` | `undefined` |
+| Property          | Attribute  | Description | Type    | Default     |
+| ----------------- | ---------- | ----------- | ------- | ----------- |
+| `bookmark`        | `bookmark` |             | `any`   | `undefined` |
+| `labelFilterList` | --         |             | `any[]` | `[]`        |
 
 
 ## Events

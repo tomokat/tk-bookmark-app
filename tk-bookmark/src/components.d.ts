@@ -40,6 +40,7 @@ export namespace Components {
     }
     interface TkBookmarkListItem {
         "bookmark": any;
+        "labelFilterList": any[];
     }
     interface TkBookmarkTable {
         "staticTableData": any[];
@@ -234,6 +235,7 @@ declare namespace LocalJSX {
     }
     interface TkBookmarkListItem {
         "bookmark"?: any;
+        "labelFilterList"?: any[];
         "onNotifyToggleLabel"?: (event: TkBookmarkListItemCustomEvent<any>) => void;
         "onRequestEditBookmark"?: (event: TkBookmarkListItemCustomEvent<any>) => void;
     }
