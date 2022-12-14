@@ -77,7 +77,7 @@ header {
 }
 
 nav.w3-sidebar {
-  max-height: calc(100vh - var(--footer-height) - var(--footer-height-buffer));
+  max-height: calc(100vh - var(--footer-height));
 }
 
 .footer {

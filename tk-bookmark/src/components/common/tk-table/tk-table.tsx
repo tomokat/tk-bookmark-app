@@ -41,7 +41,7 @@ export class TkTable {
       let toBeFilter = false;
       let cellValue = rowData[columnFilter.field];
       let filterValue = columnFilter.value;
-      if(cellValue.toLowerCase().includes(filterValue.toLowerCase())) {
+      if(cellValue?.toLowerCase().includes(filterValue?.toLowerCase())) {
         toBeFilter = true;
       }
       console.log(`check ${cellValue} with ${filterValue} - [${toBeFilter}]`);
